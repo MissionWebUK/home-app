@@ -1,0 +1,18 @@
+{
+
+  "test": {
+
+    "PORT": 3000,
+    "MONGODB_URI": "mongodb://localhost:27017/MySensorsDbTest",
+    "JWT_SECRET": "5Q798}v8=5qniLV"
+
+  },
+  "development": {
+
+    "PORT": 3000,
+    "MONGODB_URI": "mongodb://localhost:27017/MySensorsDb",
+    "JWT_SECRET": "t')8L(D3!m3-r1b"
+
+  }
+
+}

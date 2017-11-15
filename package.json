@@ -1,0 +1,17 @@
+{
+  "name": "home-app",
+  "version": "1.0.0",
+  "description": "home automation app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Martin Sanders",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2",
+    "mongodb": "^2.2.33",
+    "mongoose": "^4.10.8",
+    "mqtt": "^2.14.0"
+  }
+}
