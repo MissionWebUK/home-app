@@ -2,10 +2,13 @@
 
 require('./config/config');
 
+const http = require('http');
 const path = require('path');
 const express = require('express');
 const mqtt = require('mqtt');
 const fs = require('fs');
+const socketIO = require('socket.io');
+const request = require('request');
 
 const {ObjectID} = require('mongodb');
 const {mongoose} = require('./db/mongoose');
@@ -174,9 +177,19 @@ const P_ULONG32						      = 5;
 const P_CUSTOM						      = 6;
 
 var app = express();
+var server = http.createServer(app);
+var io = socketIO(server);
 var client  = mqtt.connect([{ host: 'localhost', port: 1883 }]);
 
 app.use(express.static(publicPath));
+
+/*
+
+  MQTT Stuff
+
+*/
+
+// Connect to MQTT Borker
 
 client.on('connect', function () {
 
@@ -187,10 +200,6 @@ client.on('connect', function () {
 });
 
 client.on('message', function (topic, message) {
-
-  console.log(topic);
-
-  console.log(message.toString());
 
   // Decode MQTT Message
 
@@ -228,9 +237,25 @@ client.on('message', function (topic, message) {
 
     saveValue(rsender, rsensor, payload);
 
+  } else if (rcommand == C_REQ) {
+
+    // Request function to go here
+
   } else if (rcommand == C_INTERNAL) {
 
-    if (rtype == I_ID_REQUEST) {
+    if (rtype == I_BATTERY_LEVEL) {
+
+      // Battery Level Function to go here
+
+    } else if (rtype == I_TIME) {
+
+      sendTime(rsender, rsensor);
+
+    } else if (rtype == I_VERSION) {
+
+      // Gateway Version function to go here
+
+    } else if (rtype == I_ID_REQUEST) {
 
       sendNextAvailableSensorId();
 
@@ -240,11 +265,104 @@ client.on('message', function (topic, message) {
 
 });
 
-app.listen(port, () => {
+/*
+
+  Web Socket Stuff
+
+*/
+
+io.on('connection', (socket) => {
+
+  socket.on('temps', (data, callback) => {
+
+    var nodeId = data.nodeid;
+    var sensorId = data.sensorid;
+    var url = 'http://192.168.1.69:3000/temps/' + nodeId + '/' + sensorId
+
+    var getOptions = { method: 'GET',
+        url: url,
+        headers:
+          { 'content-type': 'application/json' },
+        json: true };
+
+    request(getOptions, function (error, response, body) {
+
+      if (error) throw new Error(error);
+
+      var numValues = body.values[0].sensors[0].values.length;
+
+      var lastValue = numValues - 1;
+
+      var temp = body.values[0].sensors[0].values[lastValue];
+
+      //console.log(temp);
+
+      //var items = body.trackedsearchs;
+
+      callback(temp);
+
+    });
+
+  });
+
+  socket.on('toggle', (toggle) => {
+
+    var payload = toggle.toggle;
+    var destination = 1;
+    var sensor = 2;
+    var command = 1;
+    var acknowledge = 0;
+    var type = 2;
+    var topic = 'mysensors-in/' + destination + '/' + sensor + '/' + command + '/' + acknowledge + '/' + type;
+
+    client.publish(topic.toString(), payload.toString());
+
+  });
+
+});
+
+/*
+
+  Routes
+
+*/
+
+app.get('/temps/:id/:sensor', (req, res) => {
+
+  SensorNode.find({
+
+    "id": req.params.id,
+    "sensors.id": req.params.sensor
+
+  }, "sensors.$.values").then((values) => {
+
+    res.send({values});
+
+  }, (e) => {
+
+    res.send(e);
+
+  });
+
+});
+
+/*
+
+  Start Server
+
+*/
+
+server.listen(port, () => {
 
   console.log(`Server is running on port ${port}`);
 
 });
+
+/*
+
+  Functions
+
+*/
 
 function sendNextAvailableSensorId() {
 
@@ -374,20 +492,12 @@ function saveSensor(rsender, rsensor, rtype) {
 
 function saveValue(rsender, rsensor, payload) {
 
-  console.log('Saving value');
-
   var value = {
-
-    //values: {
 
       timestamp: new Date().getTime(),
       value: payload
 
-    //}
-
   }
-
-  console.log(value);
 
   SensorNode.findOneAndUpdate({
 
@@ -410,8 +520,19 @@ function saveValue(rsender, rsensor, payload) {
 
     }
 
-    console.log(result);
-
   });
+
+}
+
+function sendTime(destination, sensor) {
+
+  var payload = new Date().getTime()/1000;
+  var command = C_INTERNAL;
+  var acknowledge = 0; // no ack
+	var type = I_TIME;
+
+  var topic = 'mysensors-in/' + destination + '/' + sensor + '/' + command + '/' + acknowledge + '/' + type;
+
+  client.publish(topic.toString(), payload.toString());
 
 }
