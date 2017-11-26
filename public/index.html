@@ -16,6 +16,14 @@
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- JQuery UI -->
+
+    <link href="css/jquery-ui.min.css" rel="stylesheet">
+
+    <!-- Chartist -->
+
+    <link rel="stylesheet" href="css/chartist.min.css">
+
     <link rel="stylesheet" type="text/css" media="all" href="css/style.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -47,7 +55,7 @@
 
           </button>
 
-          <a class="navbar-brand" href="#">My Home</a>
+          <a class="navbar-brand" href="index.html">My Home</a>
 
         </div><!-- navbar-header -->
 
@@ -59,7 +67,7 @@
 
             <li><a href="#"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></li>
 
-            <li><a href="#"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li>
+            <li><a href="settings.html"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li>
 
           </ul>
 
@@ -77,9 +85,9 @@
 
           <ul class="nav nav-sidebar">
 
-            <li class="active"><a href="#">Sensors<span class="sr-only">(current)</span></a></li>
+            <li class="active"><a href="index.html">Sensors<span class="sr-only">(current)</span></a></li>
 
-            <li><a href="#">Cameras</a></li>
+            <li><a href="cameras.html">Cameras</a></li>
 
             <li><a href="#">Entertainment</a></li>
 
@@ -95,39 +103,359 @@
 
           <div class="row">
 
-            <div class="col-xs-6 col-sm-3">
+            <div class="col-xs-6 col-sm-4">
 
-              <div id="temp"></div>
+              <div class="row">
+
+                <div id="temp" class="jumbotron"></div>
+
+              </div><!-- row -->
+
+              <div class="row">
+
+                <div id="triggers" class="jumbotron">
+
+                  <div class="row">
+
+                    <div class="col-xs-12 col-sm-6">
+
+                      <label class="switch">
+
+                        <input type="checkbox" class="checkbox_check toggle" id="20" readonly>
+
+                        <span class="slider round"></span>
+
+                      </label>
+
+                      <p>Motion Sensor</p>
+
+                    </div><!-- col -->
+
+                    <div class="col-xs-12 col-sm-6">
+
+                      <label class="switch">
+
+                        <input type="checkbox" class="checkbox_check toggle" id="21" readonly>
+
+                        <span class="slider round"></span>
+
+                      </label>
+
+                      <p>Door Sensor</p>
+
+                    </div><!-- col -->
+
+                  </div><!-- row -->
+
+                </div><!--  jumbotron -->
+
+              </div><!-- row -->
 
             </div><!-- col -->
 
-            <div class="col-xs-6 col-sm-3">
+            <div class="col-xs-6 col-sm-4">
 
-              <label class="switch">
+              <div class="jumbotron">
 
-                <input type="checkbox" class="checkbox_check" id="toggle1">
+                <div class="row">
 
-                <span class="slider round"></span>
+                  <div class="col-xs-12 col-sm-6">
 
-              </label>
+                    <label class="switch">
+
+                      <input type="checkbox" class="checkbox_check toggle" id="1">
+
+                      <span class="slider round"></span>
+
+                    </label>
+
+                    <p>Outdoor Light</p>
+
+                  </div>
+
+                  <div class="col-xs-12 col-sm-6">
+
+                    <label class="switch">
+
+                      <input type="checkbox" class="checkbox_check toggle" id="2">
+
+                      <span class="slider round"></span>
+
+                    </label>
+
+                    <p>Indoor Light</p>
+
+                  </div>
+
+                  <div class="col-xs-12 col-sm-6">
+
+                    <label class="switch">
+
+                      <input type="checkbox" class="checkbox_check toggle" id="3">
+
+                      <span class="slider round"></span>
+
+                    </label>
+
+                    <p>Utility Fan</p>
+
+                  </div>
+
+                  <div class="col-xs-12 col-sm-6">
+
+                    <label class="switch">
+
+                      <input type="checkbox" class="checkbox_check toggle" id="4">
+
+                      <span class="slider round"></span>
+
+                    </label>
+
+                    <p>Shower Fan</p>
+
+                  </div>
+
+                  <div class="col-xs-12 col-sm-6">
+
+                    <label class="switch">
+
+                      <input type="checkbox" class="checkbox_check toggle" id="5">
+
+                      <span class="slider round"></span>
+
+                    </label>
+
+                    <p>Utility LEDs</p>
+
+                  </div>
+
+                  <div class="col-xs-12 col-sm-6">
+
+                    <label class="switch">
+
+                      <input type="checkbox" class="checkbox_check toggle" id="6">
+
+                      <span class="slider round"></span>
+
+                    </label>
+
+                    <p>Outdoor LEDs</p>
+
+                  </div>
+
+                </div><!-- row -->
+
+              </div><!-- Jumbotron -->
 
             </div><!-- col -->
 
-            <div class="col-xs-6 col-sm-3">
+            <div class="col-xs-6 col-sm-4">
+
+              <div class="row">
+
+                <div class="jumbotron">
+
+                  <div id="clock"></div>
+
+                </div><!-- jumbotron -->
+
+              </div><!-- row -->
+
+              <div class="row">
+
+                <div class="jumbotron">
+
+                  <div id="sunTimes"></div>
+
+                </div><!-- jumbotron -->
+
+              </div><!-- row -->
 
             </div><!-- col -->
 
-            <div class="col-xs-6 col-sm-3">
+          </div><!-- row -->
 
-              <div id="clock"></div>
+          <div class="row">
+
+            <div class="col-xs-12 col-sm-12">
+
+              <div class="jumbotron">
+
+                <h2>Temperatures</h2>
+
+                <div id="chartbox" class="ct-chart">
+
+                </div>
+
+              </div><!-- jumbotron -->
 
             </div><!-- col -->
+
+          </div><!-- row -->
+
+          <div class="jumbotron">
+
+            <div class="row">
+
+              <h2>Lights</h2>
+
+              <div class="col-xs-12 col-sm-4">
+
+                <h3>Colours</h3>
+
+                <div class="row">
+
+                  <div id="colour" class="col-xs-12">
+
+                    <p>Outdoor LEDs</p>
+
+                    <input class="btn jscolor picker" id="16" value="ab2567">
+
+                  </div>
+
+                </div>
+
+                <div class="row">
+
+                  <div id="colour" class="col-xs-12">
+
+                    <p>Utility LEDs</p>
+
+                    <input class="btn jscolor picker" id="17" value="ab2567">
+
+                  </div>
+
+                </div>
+
+              </div><!-- col -->
+
+              <div class="col-xs-12 col-sm-4">
+
+                <h3>Effects</h3>
+
+                <div class="row">
+
+                  <div class="col-xs-12 col-sm-6">
+
+                    <label class="switch">
+
+                      <input type="checkbox" class="checkbox_check toggle" id="7">
+
+                      <span class="slider round"></span>
+
+                    </label>
+
+                    <p>Candy Cane</p>
+
+                  </div>
+
+                  <div class="col-xs-12 col-sm-6">
+
+                    <label class="switch">
+
+                      <input type="checkbox" class="checkbox_check toggle" id="8">
+
+                      <span class="slider round"></span>
+
+                    </label>
+
+                    <p>Random White</p>
+
+                  </div>
+
+                  <div class="col-xs-12 col-sm-6">
+
+                    <label class="switch">
+
+                      <input type="checkbox" class="checkbox_check toggle" id="9">
+
+                      <span class="slider round"></span>
+
+                    </label>
+
+                    <p>Random Colour</p>
+
+                  </div>
+
+                  <div class="col-xs-12 col-sm-6">
+
+                    <label class="switch">
+
+                      <input type="checkbox" class="checkbox_check toggle" id="10">
+
+                      <span class="slider round"></span>
+
+                    </label>
+
+                    <p>Rainbow Stripe</p>
+
+                  </div>
+
+                  <div class="col-xs-12 col-sm-6">
+
+                    <label class="switch">
+
+                      <input type="checkbox" class="checkbox_check toggle" id="11">
+
+                      <span class="slider round"></span>
+
+                    </label>
+
+                    <p>Rainbow Cycle</p>
+
+                  </div>
+
+                </div><!-- row -->
+
+              </div><!-- col -->
+
+              <div class="col-xs-12 col-sm-4">
+
+                <h3>Dimmers</h3>
+
+                <div class="col-xs-12 col-sm-6">
+
+                  <p>Outdoor LEDs</p>
+
+                  <div class="row">
+
+                    <div style="height:200px; width: 50%;" class="col-xs-6 slider-vertical" id="12"></div>
+
+                    <div class="col-xs-6" id="13"></div>
+
+                  </div><!-- row -->
+
+                </div><!-- col -->
+
+                <div class="col-xs-12 col-sm-6">
+
+                  <p>Utility LEDs</p>
+
+                  <div class="row">
+
+                    <di style="height:200px; width: 50%;" class="col-xs-6 slider-vertical" id="14"></div>
+
+                    <div class="col-xs-6" id="15"></div>
+
+                  </div>
+
+                </div>
+
+              </div><!-- col -->
+
+            </div><!-- jumbotron -->
 
           </div><!-- row -->
 
         </div><!-- col -->
 
       </div><!-- row -->
+
+      <footer>
+
+        <p>Sanders Smart Home</p>
+
+      </footer>
 
     </div><!-- container -->
 
@@ -139,9 +467,17 @@
 
     <script src="js/bootstrap.min.js"></script>
 
+    <script src="js/jquery-ui.min.js"></script>
+
+    <script src="js/moment.js"></script>
+
+    <script src="js/chartist.min.js"></script>
+
+    <script src="js/jscolor.min.js"></script>
+
     <script src="/socket.io/socket.io.js"></script>
 
-      <script src="js/main.js"></script>
+    <script src="js/main.js"></script>
 
   </body>
 

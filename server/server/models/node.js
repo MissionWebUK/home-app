@@ -53,11 +53,6 @@ var sensorSchema = new Schema ({
 
   },
 
-  roToggleHtmlId: {
-
-    
-  },
-
   values: [valueSchema]
 
 });

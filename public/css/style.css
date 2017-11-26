@@ -143,3 +143,11 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+/* Colours & Dimmers */
+
+input#picker.btn.jscolor {
+
+  margin-bottom: 15px;
+
+}

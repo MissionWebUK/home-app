@@ -277,9 +277,9 @@ client.on('message', function (topic, message) {
 
 io.on('connection', (socket) => {
 
-  socket.on('settings', (data, callback) => {
+  socket.on('sun', (data, callback) => {
 
-    var url = 'http://192.168.1.69:3000/settings';
+    var url = 'http://192.168.1.69:3000/sun';
 
     var getOptions = { method: 'GET',
         url: url,
@@ -293,20 +293,20 @@ io.on('connection', (socket) => {
 
       // Need to handle so this doesn;t stop the server when there is no data, so when the system first starts
 
-      var settings = body;
+      var sun = body;
 
-      callback(settings);
+      callback(sun);
 
     });
 
 
   });
 
-  socket.on('value', (data, callback) => {
+  socket.on('temps', (data, callback) => {
 
-    var destination = data.destination;
-    var sensor = data.sensor;
-    var url = 'http://192.168.1.69:3000/values/' + destination + '/' + sensor;
+    var nodeId = data.nodeid;
+    var sensorId = data.sensorid;
+    var url = 'http://192.168.1.69:3000/temps/' + nodeId + '/' + sensorId
 
     var getOptions = { method: 'GET',
         url: url,
@@ -320,7 +320,9 @@ io.on('connection', (socket) => {
 
       // Need to handle so this doesn;t stop the server when there is no data, so when the system first starts
 
-      callback(body);
+      var temp = body;
+
+      callback(temp);
 
     });
 
@@ -334,11 +336,11 @@ io.on('connection', (socket) => {
 
     for (var i = 0; i<data.sensors.length; i++) {
 
-      var destination = data.sensors[i].destination;
+      var nodeId = data.sensors[i].nodeid;
 
-      var sensor = data.sensors[i].sensor;
+      var sensorId = data.sensors[i].sensorid;
 
-      var url = 'http://192.168.1.69:3000/graph/' + destination + '/' + sensor;
+      var url = 'http://192.168.1.69:3000/graph/' + nodeId + '/' + sensorId;
 
       var getOptions = { method: 'GET',
           url: url,
@@ -393,6 +395,10 @@ io.on('connection', (socket) => {
 
       // Need to handle so this doesn;t stop the server when there is no data, so when the system first starts
 
+      console.log(body);
+
+      callback(body);
+
     });
 
   });
@@ -422,6 +428,12 @@ io.on('connection', (socket) => {
 
       // Need to handle so this doesn;t stop the server when there is no data, so when the system first starts
 
+      console.log(response);
+
+      console.log(body);
+
+      callback(body);
+
     });
 
   });
@@ -429,9 +441,8 @@ io.on('connection', (socket) => {
   socket.on('toggle', (toggle) => {
 
     var payload = toggle.toggle;
-    var destination = toggle.destination;
-    var sensor = toggle.sensor;
-    var url = 'http://192.168.1.69:3000/toggle/' + destination + '/' + sensor + '/' + payload;
+    var destination = 4;
+    var sensor = 2;
     var command = 1;
     var acknowledge = 0;
     var type = 2;
@@ -439,17 +450,187 @@ io.on('connection', (socket) => {
 
     client.publish(topic.toString(), payload.toString());
 
-    var patchOptions = { method: 'PATCH',
-        url: url,
-        headers:
-          { 'content-type': 'application/json' },
-        json: true };
+    SensorNode.update({id: destination, "sensors.id": sensor},
 
-    request(patchOptions, function (error, response, body) {
+      {
 
-      if (error) throw new Error(error);
+        $set: {
 
-      // Need to handle so this doesn;t stop the server when there is no data, so when the system first starts
+          "sensors.$.currentValue": payload,
+          "sensors.$.valueUpdated": new Date().getTime()
+
+        }
+
+    }, function(err, result) {
+
+        if(err) {
+
+          console.log(err);
+
+        }
+
+    });
+
+    var value = {
+
+      timestamp: new Date().getTime(),
+      value: payload
+
+
+    }
+
+    SensorNode.findOneAndUpdate({
+
+      "id": destination,
+      "sensors.id": sensor
+
+    }, {
+
+      "$push": {
+
+        "sensors.$.values": value
+
+      }
+
+    }, function(err, result) {
+
+      if (err) {
+
+        console.log(err);
+
+      }
+
+    });
+
+  });
+
+  socket.on('toggle2', (toggle) => {
+
+    var payload = toggle.toggle;
+    var destination = 4;
+    var sensor = 2;
+    var command = 1;
+    var acknowledge = 0;
+    var type = 2;
+    var topic = 'mysensors-in/' + destination + '/' + sensor + '/' + command + '/' + acknowledge + '/' + type;
+
+    client.publish(topic.toString(), payload.toString());
+
+    SensorNode.update({id: destination, "sensors.id": sensor},
+
+      {
+
+        $set: {
+
+          "sensors.$.currentValue": payload,
+          "sensors.$.valueUpdated": new Date().getTime()
+
+        }
+
+    }, function(err, result) {
+
+        if(err) {
+
+          console.log(err);
+
+        }
+
+    });
+
+    var value = {
+
+      timestamp: new Date().getTime(),
+      value: payload
+
+
+    }
+
+    SensorNode.findOneAndUpdate({
+
+      "id": destination,
+      "sensors.id": sensor
+
+    }, {
+
+      "$push": {
+
+        "sensors.$.values": value
+
+      }
+
+    }, function(err, result) {
+
+      if (err) {
+
+        console.log(err);
+
+      }
+
+    });
+
+  });
+
+  socket.on('toggle7', (toggle) => {
+
+    var payload = toggle.toggle;
+    var destination = 4;
+    var sensor = 5;
+    var command = 1;
+    var acknowledge = 0;
+    var type = 2;
+    var topic = 'mysensors-in/' + destination + '/' + sensor + '/' + command + '/' + acknowledge + '/' + type;
+
+    client.publish(topic.toString(), payload.toString());
+
+    SensorNode.update({id: destination, "sensors.id": sensor},
+
+      {
+
+        $set: {
+
+          "sensors.$.currentValue": payload,
+          "sensors.$.valueUpdated": new Date().getTime()
+
+        }
+
+    }, function(err, result) {
+
+        if(err) {
+
+          console.log(err);
+
+        }
+
+    });
+
+    var value = {
+
+      timestamp: new Date().getTime(),
+      value: payload
+
+
+    }
+
+    SensorNode.findOneAndUpdate({
+
+      "id": destination,
+      "sensors.id": sensor
+
+    }, {
+
+      "$push": {
+
+        "sensors.$.values": value
+
+      }
+
+    }, function(err, result) {
+
+      if (err) {
+
+        console.log(err);
+
+      }
 
     });
 
@@ -463,7 +644,7 @@ io.on('connection', (socket) => {
 
 */
 
-app.get('/settings', (req, res) => {
+app.get('/sun', (req, res) => {
 
   Setting.findOne().then((value) => {
 
@@ -477,7 +658,7 @@ app.get('/settings', (req, res) => {
 
 });
 
-app.get('/values/:id/:sensor', (req, res) => {
+app.get('/temps/:id/:sensor', (req, res) => {
 
   SensorNode.find({
 
@@ -600,62 +781,6 @@ app.patch('/colour/:id/:sensor/:colour', (req, res) => {
     timestamp: new Date().getTime(),
     value: req.params.colour
 
-  }
-
-  SensorNode.findOneAndUpdate({
-
-    "id": req.params.id,
-    "sensors.id": req.params.sensor
-
-  }, {
-
-    "$push": {
-
-      "sensors.$.values": value
-
-    }
-
-  }, function(err, result) {
-
-    res.send({result});
-
-    if (err) {
-
-      console.log(err);
-
-    }
-
-  });
-
-});
-
-app.patch('/toggle/:id/:sensor/:toggle', (req, res) => {
-
-  SensorNode.update({id: req.params.id, "sensors.id": req.params.sensor},
-
-    {
-
-      $set: {
-
-        "sensors.$.currentValue": req.params.toggle,
-        "sensors.$.valueUpdated": new Date().getTime()
-
-      }
-
-  }, function(err, result) {
-
-      if(err) {
-
-        console.log(err);
-
-      }
-
-  });
-
-  var value = {
-
-    timestamp: new Date().getTime(),
-    value: req.params.toggle
 
   }
 
@@ -673,8 +798,6 @@ app.patch('/toggle/:id/:sensor/:toggle', (req, res) => {
     }
 
   }, function(err, result) {
-
-    res.send({result});
 
     if (err) {
 
@@ -929,9 +1052,9 @@ function saveValue(rsender, rsensor, payload) {
 
           }
 
-          if (valuesLength > 500) {
+          var objID = result[0].sensors[i].values[0]._id;
 
-            var objID = result[0].sensors[i].values[0]._id;
+          if (valuesLength > 500) {
 
             SensorNode.findOneAndUpdate({
 
