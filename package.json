@@ -18,7 +18,7 @@
     "express": "^4.16.2",
     "file-on-write": "^1.1.1",
     "longjohn": "^0.2.12",
-    "moment": "^2.19.2",
+    "moment": "^2.22.0",
     "mongodb": "^2.2.33",
     "mongoose": "^4.10.8",
     "mqtt": "^2.15.3",
