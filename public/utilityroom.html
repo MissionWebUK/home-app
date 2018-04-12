@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>My Home</title>
+
+    <!-- Bootstrap -->
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- JQuery UI -->
+
+    <link href="css/jquery-ui.min.css" rel="stylesheet">
+
+    <!-- Chartist -->
+
+    <link rel="stylesheet" href="css/chartist.min.css">
+
+    <!-- Custom Styles -->
+
+    <link rel="stylesheet" type="text/css" media="all" href="css/console.css">
+
+  </head>
+
+  <body onload="startTime()" style="width: 780px; height: 465px;">
+
+    <div class="container">
+
+      <!-- First Row -->
+
+      <div class="row">
+
+        <div class="col-sm-6">
+
+          <h1>Utility Room</h1>
+
+        </div><!-- col -->
+
+        <div class="col-sm-6">
+
+          <div class="row">
+
+            <div class="col-sm-2">
+
+              <a href="consoleRooms.html" class="active"><img src="img/opened-door-aperture.png" /></a>
+
+            </div><!-- col -->
+
+            <div class="col-sm-2">
+
+              <a href="consoleSensors.html"><img src="img/exposure.png" /></a>
+
+            </div><!-- col -->
+
+            <div class="col-sm-2">
+
+              <a href="consoleCctv.html"><img src="img/cctv.png" /></a>
+
+            </div><!-- col -->
+
+            <div class="col-sm-2">
+
+              <a href="consoleData.html"><img src="img/line-chart.png" /></a>
+
+            </div><!-- col -->
+
+            <div class="col-sm-2">
+
+              <a href="consoleEntertainment.html"><img src="img/speaker.png" /></a>
+
+            </div><!-- col -->
+
+            <div class="col-sm-2">
+
+              <a href="consoleScenes.html"><img src="img/picture.png" /></a>
+
+            </div><!-- col -->
+
+          </div><!-- row -->
+
+        </div><!-- col -->
+
+      </div><!-- row -->
+
+      <!-- Main Content -->
+
+      <div class="row">
+
+        <div class="col-sm-4">
+
+          <div id="weather" class="jumbotron">
+
+            <div class="row">
+
+              <div class="col-sm-9">
+
+                <div id="18">
+
+                  <!-- Sensor Value - Probably Temperature -->
+
+                </div>
+
+              </div><!-- col -->
+
+              <div class="col-sm-3">
+
+                <div class="row" style="margin: auto;">
+
+                  <img src="img/compass.png" />
+
+                </div><!-- row -->
+
+                <div class="row" id="windDirection" style="margin: auto;">
+
+                  <!-- Wind Direction -->
+
+                </div><!-- row -->
+
+              </div><!-- col -->
+
+            </div><!-- row -->
+
+            <div class="row">
+
+              <div class="col-sm-9">
+
+                <div id="25">
+
+                  <!-- Sensor Value - Probably Humidity -->
+
+                </div>
+
+                <div id="updated">
+
+                  <!-- Time sensor values last updated -->
+
+                </div>
+
+              </div><!-- col -->
+
+              <div class="col-sm-3">
+
+                <div class="row" style="margin: auto;">
+
+                  <img src="img/speed.png" />
+
+                </div><!-- row -->
+
+                <div class="row" id="windSpeed" style="margin: auto;">
+
+                  <!-- Wind Speed -->
+
+                </div><!-- row -->
+
+              </div><!-- col -->
+
+            </div><!-- row -->
+
+          </div><!-- jumbotron -->
+
+        </div><!-- col -->
+
+        <div class="col-sm-4">
+
+          <!-- Switches -->
+
+          <div id="" class="jumbotron">
+
+            <div class="row">
+
+              <div class="col-sm-6">
+
+                <label class="switch">
+
+                  <input type="checkbox" class="checkbox_check toggle" id="1">
+
+                  <span class="slider round"></span>
+
+                </label>
+
+                <p>Outdoor Light</p>
+
+              </div><!-- col -->
+
+              <div class="col-sm-6">
+
+                <label class="switch">
+
+                  <input type="checkbox" class="checkbox_check toggle" id="2">
+
+                  <span class="slider round"></span>
+
+                </label>
+
+                <p>Indoor Light</p>
+
+              </div><!-- col -->
+
+            </div><!-- row -->
+
+            <div class="row">
+
+              <div class="col-sm-6">
+
+                <label class="switch">
+
+                  <input type="checkbox" class="checkbox_check toggle" id="3">
+
+                  <span class="slider round"></span>
+
+                </label>
+
+                <p>Utility Fan</p>
+
+              </div><!-- col -->
+
+              <div class="col-sm-6">
+
+                <label class="switch">
+
+                  <input type="checkbox" class="checkbox_check toggle" id="4">
+
+                  <span class="slider round"></span>
+
+                </label>
+
+                <p>Shower Fan</p>
+
+              </div><!-- col -->
+
+            </div><!-- row -->
+
+          </div><!-- jumbotron -->
+
+        </div><!-- col -->
+
+        <div class="col-sm-4">
+
+          <!-- Clock/Date & Sunrise/Sunset Times -->
+
+          <div id="" class="jumbotron">
+
+            <div class="row">
+
+              <div class="col-sm-12" id="clock">
+
+                <!-- Time -->
+
+              </div><!-- col -->
+
+            </div><!-- row -->
+
+            <div class="row">
+
+              <div class="col-sm-12" id="date">
+
+                <!-- Date -->
+
+              </div><!-- col -->
+
+            </div><!-- row -->
+
+            <div class="row" id="suntimes">
+
+              <div class="col-sm-2">
+
+                <img src="img/sunrise-hour.png" style="margin-top: 0px;" />
+
+              </div><!-- col -->
+
+              <div class="col-sm-4" id="sunrise">
+
+                <!-- Sunrise Time -->
+
+              </div><!-- col -->
+
+              <div class="col-sm-2">
+
+                <img src="img/sunset.png" style="margin-top: 0px;" />
+
+              </div><!-- col -->
+
+              <div class="col-sm-4" id="sunset">
+
+                <!-- Sunset Time -->
+
+              </div><!-- col -->
+
+            </div><!-- row -->
+
+          </div><!-- jumbotron -->
+
+        </div><!-- col -->
+
+      </div><!-- row -->
+
+      <!-- Second Row -->
+
+      <div class="row">
+
+        <div class="col-sm-4">
+
+          <!-- Read Only Toggle Switches -->
+
+          <div class="jumbotron">
+
+            <div class="row">
+
+              <div class="col-sm-6">
+
+                <label class="switch">
+
+                  <input type="checkbox" class="checkbox_check toggle" id="20">
+
+                  <span class="slider round"></span>
+
+                </label>
+
+                <p>Motion Sensor</p>
+
+              </div><!-- col -->
+
+              <div class="col-sm-6">
+
+              </div><!-- col -->
+
+            </div><!-- row -->
+
+            <div class="row">
+
+              <div class="col-sm-6">
+
+                <label class="switch">
+
+                  <input type="checkbox" class="checkbox_check toggle" id="21">
+
+                  <span class="slider round"></span>
+
+                </label>
+
+                <p>Front Door</p>
+
+              </div><!-- col -->
+
+              <div class="col-sm-6">
+
+                <label class="switch">
+
+                  <input type="checkbox" class="checkbox_check toggle" id="22">
+
+                  <span class="slider round"></span>
+
+                </label>
+
+                <p>Garage Door</p>
+
+              </div><!-- col -->
+
+            </div><!-- row -->
+
+          </div><!-- jumbotron -->
+
+        </div><!-- col -->
+
+        <div class="col-sm-8">
+
+          <!-- Light Settings -->
+
+          <div id="" class="jumbotron">
+
+            <div class="row">
+
+              <div class="col-sm-4">
+
+                <!-- Colour Pickers -->
+
+                <div class="row">
+
+                  <div id="colour" class="col-sm-12">
+
+                    <p>Outdoor LEDs</p>
+
+                    <input class="btn jscolor picker" id="16" value="2196F3">
+
+                  </div>
+
+                </div><!-- row -->
+
+                <div class="row">
+
+                  <div id="colour" class="col-sm-12">
+
+                    <p>Utility LEDs</p>
+
+                    <input class="btn jscolor picker" id="17" value="2196F3">
+
+                  </div>
+
+                </div><!-- row -->
+
+              </div><!-- col -->
+
+              <div class="col-sm-5">
+
+                <!-- Effect Switches -->
+
+                <div class="row">
+
+                  <div class="col-xs-12 col-sm-6">
+
+                    <label class="switch">
+
+                      <input type="checkbox" class="checkbox_check toggle" id="7">
+
+                      <span class="slider round"></span>
+
+                    </label>
+
+                    <p>Candy Cane</p>
+
+                  </div>
+
+                  <div class="col-xs-12 col-sm-6">
+
+                    <label class="switch">
+
+                      <input type="checkbox" class="checkbox_check toggle" id="8">
+
+                      <span class="slider round"></span>
+
+                    </label>
+
+                    <p>Random White</p>
+
+                  </div>
+
+                </div><!-- row -->
+
+                <div class="row">
+
+                  <div class="col-xs-12 col-sm-6">
+
+                    <label class="switch">
+
+                      <input type="checkbox" class="checkbox_check toggle" id="9">
+
+                      <span class="slider round"></span>
+
+                    </label>
+
+                    <p>Random Colour</p>
+
+                  </div>
+
+                  <div class="col-xs-12 col-sm-6">
+
+                    <label class="switch">
+
+                      <input type="checkbox" class="checkbox_check toggle" id="10">
+
+                      <span class="slider round"></span>
+
+                    </label>
+
+                    <p>Rainbow Stripe</p>
+
+                  </div>
+
+                </div><!-- row -->
+
+              </div><!-- col -->
+
+              <!-- Dimmers -->
+
+              <div class="col-sm-3" id="dimmers">
+
+                <div class="row">
+
+                  <div class="col-sm-6">
+
+                    <p>Outdoor LEDs</p>
+
+                    <div class="row">
+
+                      <div style="height:75px; width: 50%; margin-left: 13px;" class="col-xs-6 slider-vertical" id="12">
+
+                      </div>
+
+                      <div class="col-xs-6" id="13">
+
+                      </div>
+
+                    </div><!-- row -->
+
+                  </div><!-- col -->
+
+                  <div class="col-sm-6">
+
+                    <p style="margin-left: -13px;">Utility </br>LEDs</p>
+
+                    <div class="row">
+
+                      <div style="height:75px; width: 50%;" class="col-xs-6 slider-vertical" id="14">
+
+                      </div>
+
+                      <div class="col-xs-6" id="15">
+
+                      </div><!-- col -->
+
+                    </div><!-- row -->
+
+                  </div><!-- col -->
+
+                </div><!-- row -->
+
+              </div><!-- col -->
+
+            </div><!-- row -->
+
+          </div><!-- jumbotron -->
+
+        </div><!-- col -->
+
+      </div><!-- row -->
+
+      <div class="row">
+
+        <div class="col-sm-8">
+
+          <div id="" class="jumbotron">
+
+
+
+          </div>
+
+        </div><!-- col -->
+
+        <div class="col-sm-4">
+
+          <div id="" class="jumbotron">
+
+            <img src="http://192.168.1.71:8081" style="width: 50%;">
+
+          </div>
+
+        </div><!-- col -->
+
+      </div><!-- row -->
+
+    </div><!-- container -->
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+
+    <script src="js/bootstrap.min.js"></script>
+
+    <script src="js/jquery-ui.min.js"></script>
+
+    <script src="js/touch-punch.min.js"></script>
+
+    <script src="js/moment.js"></script>
+
+    <script src="js/chartist.min.js"></script>
+
+    <script src="js/jscolor.min.js"></script>
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script src="js/main.js"></script>
+
+  </body>
+
+</html>

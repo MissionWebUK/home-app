@@ -1,0 +1,46 @@
+February 25th 2018 9:20:58 pm Error getting weather information
+Error: socket hang up
+February 26th 2018 1:17:20 am Error getting system info
+Error: socket hang up
+February 27th 2018 12:41:56 am Error getting system info
+Error: read ECONNRESET
+February 27th 2018 12:48:37 am Error getting system info
+Error: socket hang up
+February 27th 2018 12:48:37 am Error getting system info
+Error: socket hang up
+February 27th 2018 12:48:37 am Error getting system info
+Error: socket hang up
+February 27th 2018 3:53:06 pm Unable to get MongoDB Status
+Error: Command failed: service mongodb status
+
+February 27th 2018 5:38:27 pm Error updating weather information
+MongoError: connection 45 to localhost:27017 timed out
+February 27th 2018 5:38:27 pm Error updating weather information
+MongoError: connection 46 to localhost:27017 timed out
+March 2nd 2018 4:08:00 pm Unable to get MongoDB Status
+Error: Command failed: service mongodb status
+
+March 2nd 2018 4:09:00 pm Unable to get MongoDB Status
+Error: Command failed: service mongodb status
+
+March 2nd 2018 4:10:00 pm Unable to get MongoDB Status
+Error: Command failed: service mongodb status
+
+March 2nd 2018 4:11:00 pm Unable to get MongoDB Status
+Error: Command failed: service mongodb status
+
+March 5th 2018 2:09:05 am Error getting weather information
+Error: getaddrinfo EAI_AGAIN api.openweathermap.org:80
+March 7th 2018 8:06:44 pm Error getting weather information
+Error: connect ETIMEDOUT 178.62.207.82:80
+March 11th 2018 10:16:03 am Error getting system info
+Error: connect EHOSTUNREACH 192.168.1.65:3000
+March 11th 2018 10:16:05 am Error getting weather information
+Error: getaddrinfo EAI_AGAIN api.openweathermap.org:80
+April 10th 2018 4:09:13 pm Error getting weather information
+Error: connect ETIMEDOUT 146.185.181.89:80
+April 11th 2018 1:08:40 pm Unable to get MongoDB Status
+Error: Command failed: service mongodb status
+
+April 12th 2018 5:00:01 pm Error getting weather information
+Error: connect ECONNREFUSED 95.85.63.65:80

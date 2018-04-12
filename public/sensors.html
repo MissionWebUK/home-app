@@ -24,6 +24,8 @@
 
     <link rel="stylesheet" href="css/chartist.min.css">
 
+    <!-- Custom Styles -->
+
     <link rel="stylesheet" type="text/css" media="all" href="css/style.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -36,6 +38,8 @@
   </head>
 
   <body onload="startTime()">
+
+    <!-- Top Navbar -->
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
 
@@ -77,6 +81,8 @@
 
     </nav><!-- navbar -->
 
+    <!-- Sidebar -->
+
     <div class="container-fluid">
 
       <div class="row">
@@ -85,31 +91,35 @@
 
           <ul class="nav nav-sidebar">
 
-            <li><a href="index.html">Sensors</a></li>
+            <li><a href="rooms.html"><img src="img/opened-door-aperture.png" /></a></li>
 
-            <li><a href="data.html">Data</a></li>
+            <li class="active"><a href="sensors.html"><img src="img/exposure.png" /></a></li>
 
-            <li class="active"><a href="cameras.html">Cameras<span class="sr-only">(current)</span></a></li>
+            <li><a href="cctv.html"><img src="img/cctv.png" /></a></li>
 
-            <li><a href="#">Entertainment</a></li>
+            <li><a href="data.html"><img src="img/line-chart.png" /></a></li>
 
-            <li><a href="#">Scenes</a></li>
+            <li><a href="entertainment.html"><img src="img/speaker.png" /></a></li>
+
+            <li><a href="scenes.html"><img src="img/picture.png" /></a></li>
 
           </ul>
 
         </div><!-- sidebar -->
 
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <!-- Main Content -->
 
-          <h1 class ="page-header">Cameras</h1>
+        <div class="col-sm-12 col-md-10 col-md-offset-2 main">
+
+          <h1 class ="page-header">Sensors</h1>
 
           <div class="row">
 
-            <div class="col-xs-12 col-sm-6">
+            <!-- Sensors Table -->
 
-              <iframe src="http://192.168.1.98/picture/1/frame/"></iframe>
+            <div id="table" class="col-sm-12 table-hover">
 
-            </div><!-- col -->
+            </div><!-- #table -->
 
           </div><!-- row -->
 
@@ -117,7 +127,33 @@
 
       </div><!-- row -->
 
+      <footer>
+
+        <p>Sanders Smart Home</p>
+
+      </footer>
+
     </div><!-- container -->
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+
+    <script src="js/bootstrap.min.js"></script>
+
+    <script src="js/jquery-ui.min.js"></script>
+
+    <script src="js/moment.js"></script>
+
+    <script src="js/chartist.min.js"></script>
+
+    <script src="js/jscolor.min.js"></script>
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script src="js/main.js"></script>
 
   </body>
 

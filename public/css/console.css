@@ -1,13 +1,21 @@
 /*
  *
  *
- *      Responsive Stylesheet
+ *       Console Stylesheet
  *     Sanders Smart Home App
  *             V0.1
  *
  */
 
 /* Global Styles */
+
+
+img {
+
+  margin-top: 5px;
+  display: block;
+
+}
 
 h2 {
 
@@ -24,16 +32,34 @@ h3 {
 
 }
 
-img {
+.col-sm-4 {
 
-  margin: auto;
-  display: block;
+  padding-right: 0px;
+
+}
+
+.col-sm-6 {
+
+  padding-right: 0px;
+
+}
+
+.col-sm-8 {
+
+  padding-right: 0px;
+
+}
+
+.container .jumbotron {
+
+  padding: 10px;
+  margin-bottom: 10px;
 
 }
 
 .jumbotron p {
 
-  font-size: 16px;
+  font-size: 12px;
   margin: 0px;
 
 }
@@ -44,151 +70,19 @@ img {
 
 }
 
-/*
- *
- * Top navigation
- *
- */
+/* Clock Styles */
 
-.navbar {
+#suntimes p {
 
-  display: none;
-
-}
-
-.navbar-fixed-top {
-
-  border: 0;
-
-}
-
-@media (min-width: 805px) {
-
-  .navbar {
-
-    display: block;
-
-  }
-
-  body {
-
-    padding-top: 50px;
-
-  }
+  margin-top: 5px;
 
 }
 
 /*
- * Sidebar
- */
 
-/* Hide for mobile, show later */
+  Toggle Switches
 
-.sidebar {
-
-    display: none;
-
-}
-
-@media (min-width: 805px) {
-
-  .sidebar {
-
-    position: fixed;
-    top: 51px;
-    bottom: 0;
-    left: 0;
-    z-index: 1000;
-    display: block;
-    padding: 20px;
-    overflow-x: hidden;
-    overflow-y: auto;
-    /* Scrollable contents if viewport is shorter than content. */
-    background-color: #f5f5f5;
-    border-right: 1px solid #eee;
-
-  }
-
-}
-
-/* Sidebar navigation */
-
-.nav-sidebar {
-
-  margin-right: -21px;
-  margin-bottom: 20px;
-  margin-left: -20px;
-
-}
-
-.nav-sidebar > li > a {
-
-  padding-right: 20px;
-  padding-left: 20px;
-
-}
-
-.nav-sidebar > .active > a,
-.nav-sidebar > .active > a:hover,
-.nav-sidebar > .active > a:focus {
-
-  color: #fff;
-  background-color: #428bca;
-
-}
-
-
-/*
- * Main content
- */
-
-.main {
-
-  padding: 20px;
-
-}
-
-@media (min-width: 805px) {
-
-  .main {
-
-    padding-right: 40px;
-
-    padding-left: 40px;
-
-  }
-
-}
-
-.main .page-header {
-
-  margin-top: 0;
-
-}
-
-.container-fluid .jumbotron {
-
-  padding-right: 20px;
-  padding-left: 20px;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  margin-bottom: 10px;
-
-}
-
-@media (min-width: 805px) {
-
-  .jumbotron {
-
-    padding-right: 60px;
-    padding-left: 60px;
-    padding-top: 48px;
-    padding-bottom: 48px;
-    margin-bottom: 30px;
-
-  }
-
-}
+*/
 
 /* The switch - the box around the slider */
 
@@ -196,8 +90,15 @@ img {
 
   position: relative;
   display: inline-block;
-  width: 60px;
-  height: 34px;
+  width: 70px;
+  height: 25px;
+  margin-top: 5px;
+
+}
+
+label {
+
+  margin-bottom: 0px;
 
 }
 
@@ -205,7 +106,7 @@ img {
 
 .switch input {
 
-  display: none;
+  display:none;
 
 }
 
@@ -231,8 +132,8 @@ img {
   content: "";
   height: 26px;
   width: 26px;
-  left: 4px;
-  bottom: 4px;
+  left: 0px;
+  bottom: 0px;
   background-color: white;
   -webkit-transition: .4s;
   transition: .4s;
@@ -253,9 +154,9 @@ input:focus + .slider {
 
 input:checked + .slider:before {
 
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
+  -webkit-transform: translateX(46px);
+  -ms-transform: translateX(46px);
+  transform: translateX(46px);
 
 }
 
@@ -281,11 +182,18 @@ input#picker.btn.jscolor {
 
 }
 
-/* Graph Styles */
+#dimmers {
 
-.ct-line {
+  padding-left: 0px;
+  padding-right: 0px;
 
-  stroke-width: 1px;
+}
+
+/* Rooms */
+
+.room {
+
+  min-height: 150px;
 
 }
 

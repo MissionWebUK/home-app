@@ -14,13 +14,17 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "buffertools": "^2.1.6",
     "express": "^4.16.2",
+    "file-on-write": "^1.1.1",
+    "longjohn": "^0.2.12",
     "moment": "^2.19.2",
     "mongodb": "^2.2.33",
     "mongoose": "^4.10.8",
-    "mqtt": "^2.14.0",
+    "mqtt": "^2.15.3",
     "node-schedule": "^1.2.5",
     "request": "^2.83.0",
-    "socket.io": "^2.0.4"
+    "socket.io": "^2.0.4",
+    "systeminformation": "^3.33.12"
   }
 }

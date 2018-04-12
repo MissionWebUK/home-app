@@ -118,6 +118,48 @@ var Setting = mongoose.model('Setting', {
 
   },
 
+  weatherMain: {
+
+
+
+  },
+
+  weatherDescription: {
+
+
+
+  },
+
+  windDirection: {
+
+
+
+  },
+
+  windSpeed: {
+
+
+
+  },
+
+  topTemp: {
+
+
+
+  },
+
+  bottomTemp: {
+
+
+
+  },
+
+  humidity: {
+
+
+
+  },
+
   modified: {
 
     type: Date

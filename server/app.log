@@ -1,0 +1,510 @@
+March 2nd 2018 4:07:44 pm Error writing Heartbeat to database
+MongoError: not master
+March 2nd 2018 4:07:44 pm Unable to update current value
+MongoError: not master
+March 2nd 2018 4:07:44 pm Error writing Heartbeat to database
+MongoError: not master
+March 2nd 2018 4:07:44 pm Error writing Heartbeat to database
+MongoError: not master
+March 2nd 2018 4:07:44 pm Unable to update current value
+MongoError: not master
+March 2nd 2018 4:07:44 pm Unable to update current value
+MongoError: not master
+March 2nd 2018 4:07:44 pm Unable to update current value
+MongoError: not master
+March 2nd 2018 4:07:44 pm Unable to update current value
+MongoError: not master
+March 2nd 2018 4:07:44 pm Unable to update current value
+MongoError: not master
+March 2nd 2018 4:07:44 pm Error writing Heartbeat to database
+MongoError: not master
+March 2nd 2018 4:07:45 pm Unable to update current value
+MongoError: not master
+March 7th 2018 8:48:24 am Unable to update current value
+MongoError: connection 38 to localhost:27017 timed out
+March 7th 2018 8:48:24 am Error writing Heartbeat to database
+MongoError: connection 40 to localhost:27017 timed out
+March 7th 2018 8:48:24 am Unable to update current value
+MongoError: connection 40 to localhost:27017 timed out
+March 7th 2018 10:36:09 am Error writing Heartbeat to database
+MongoError: connection 65 to localhost:27017 timed out
+March 7th 2018 10:36:09 am Unable to update current value
+MongoError: connection 64 to localhost:27017 timed out
+March 7th 2018 10:36:09 am Unable to update current value
+MongoError: connection 66 to localhost:27017 timed out
+March 7th 2018 10:36:09 am Unable to update current value
+MongoError: connection 67 to localhost:27017 timed out
+March 7th 2018 10:36:09 am Unable to update current value
+MongoError: connection 63 to localhost:27017 timed out
+March 7th 2018 1:01:50 pm Error writing Heartbeat to database
+MongoError: connection 82 to localhost:27017 timed out
+March 7th 2018 1:01:50 pm Unable to update current value
+MongoError: connection 82 to localhost:27017 timed out
+March 7th 2018 1:01:50 pm Unable to get sensor values
+MongoError: connection 83 to localhost:27017 timed out
+March 7th 2018 1:01:50 pm Unable to get sensor values
+MongoError: connection 77 to localhost:27017 timed out
+March 7th 2018 1:01:50 pm Unable to get sensor values
+MongoError: connection 85 to localhost:27017 timed out
+March 7th 2018 1:20:52 pm Unable to get sensor values
+MongoError: connection 86 to localhost:27017 timed out
+March 7th 2018 1:20:52 pm Unable to get sensor values
+MongoError: connection 87 to localhost:27017 timed out
+March 7th 2018 1:20:52 pm Unable to get sensor values
+MongoError: connection 88 to localhost:27017 timed out
+March 7th 2018 1:20:52 pm Unable to get sensor values
+MongoError: connection 89 to localhost:27017 timed out
+March 7th 2018 2:17:48 pm Unable to update current value
+MongoError: connection 105 to localhost:27017 timed out
+March 7th 2018 2:17:48 pm Unable to get sensor values
+MongoError: connection 103 to localhost:27017 timed out
+March 7th 2018 2:56:10 pm Unable to get sensor values
+MongoError: connection 118 to localhost:27017 timed out
+March 7th 2018 5:02:24 pm Unable to update current value
+MongoError: connection 153 to localhost:27017 timed out
+March 7th 2018 5:02:26 pm Unable to get sensor values
+MongoError: connection 158 to localhost:27017 timed out
+March 7th 2018 5:02:26 pm Unable to get sensor values
+MongoError: connection 155 to localhost:27017 timed out
+March 7th 2018 5:27:52 pm Unable to get sensor values
+MongoError: connection 167 to localhost:27017 timed out
+March 7th 2018 5:53:10 pm Unable to update current value
+MongoError: connection 174 to localhost:27017 timed out
+March 7th 2018 5:53:10 pm Unable to update current value
+MongoError: connection 173 to localhost:27017 timed out
+March 7th 2018 5:53:10 pm Error writing Heartbeat to database
+MongoError: connection 173 to localhost:27017 timed out
+March 7th 2018 5:53:10 pm Unable to update current value
+MongoError: connection 168 to localhost:27017 timed out
+March 7th 2018 5:53:10 pm Unable to update current value
+MongoError: connection 175 to localhost:27017 timed out
+March 7th 2018 5:53:10 pm Error writing Heartbeat to database
+MongoError: connection 175 to localhost:27017 timed out
+March 7th 2018 5:53:10 pm Error writing Heartbeat to database
+MongoError: connection 176 to localhost:27017 timed out
+March 7th 2018 5:53:10 pm Unable to update current value
+MongoError: connection 176 to localhost:27017 timed out
+March 7th 2018 6:26:47 pm Unable to get sensor values
+MongoError: connection 181 to localhost:27017 timed out
+March 7th 2018 6:40:13 pm Error writing Heartbeat to database
+MongoError: connection 193 to localhost:27017 timed out
+March 7th 2018 6:40:13 pm Unable to update current value
+MongoError: connection 184 to localhost:27017 timed out
+March 7th 2018 7:00:09 pm Unable to update current value
+MongoError: connection 190 to localhost:27017 timed out
+March 7th 2018 7:00:09 pm Unable to update current value
+MongoError: connection 190 to localhost:27017 timed out
+March 7th 2018 7:00:09 pm Unable to update current value
+MongoError: connection 191 to localhost:27017 timed out
+March 7th 2018 7:00:09 pm Error writing Heartbeat to database
+MongoError: connection 196 to localhost:27017 timed out
+March 7th 2018 7:33:30 pm Unable to get sensor values
+MongoError: connection 215 to localhost:27017 timed out
+March 7th 2018 7:33:30 pm Unable to get sensor values
+MongoError: connection 214 to localhost:27017 timed out
+March 7th 2018 7:33:30 pm Unable to get sensor values
+MongoError: connection 213 to localhost:27017 timed out
+March 7th 2018 7:33:30 pm Unable to get sensor values
+MongoError: connection 213 to localhost:27017 timed out
+March 7th 2018 7:40:12 pm Unable to get sensor values
+MongoError: connection 220 to localhost:27017 timed out
+March 7th 2018 7:40:12 pm Unable to get sensor values
+MongoError: connection 217 to localhost:27017 timed out
+March 7th 2018 9:00:09 pm Error writing Heartbeat to database
+MongoError: connection 3 to localhost:27017 timed out
+March 7th 2018 9:00:10 pm Unable to get sensor values
+MongoError: connection 2 to localhost:27017 timed out
+March 7th 2018 9:26:56 pm Unable to update current value
+MongoError: connection 5 to localhost:27017 timed out
+March 7th 2018 9:46:53 pm Error writing Heartbeat to database
+MongoError: connection 18 to localhost:27017 timed out
+March 7th 2018 9:46:53 pm Unable to update current value
+MongoError: connection 16 to localhost:27017 timed out
+March 7th 2018 9:46:53 pm Unable to update current value
+MongoError: connection 14 to localhost:27017 timed out
+March 7th 2018 9:46:53 pm Unable to update current value
+MongoError: connection 15 to localhost:27017 timed out
+March 7th 2018 10:53:26 pm Error writing Heartbeat to database
+MongoError: connection 34 to localhost:27017 timed out
+March 7th 2018 10:53:26 pm Unable to update current value
+MongoError: connection 34 to localhost:27017 timed out
+March 7th 2018 10:53:26 pm Error writing Heartbeat to database
+MongoError: connection 32 to localhost:27017 timed out
+March 7th 2018 10:53:26 pm Unable to update current value
+MongoError: connection 32 to localhost:27017 timed out
+March 7th 2018 10:53:26 pm Unable to update current value
+MongoError: connection 35 to localhost:27017 timed out
+March 7th 2018 10:53:26 pm Unable to update current value
+MongoError: connection 35 to localhost:27017 timed out
+March 7th 2018 10:53:26 pm Unable to update current value
+MongoError: connection 35 to localhost:27017 timed out
+March 14th 2018 1:42:03 am Unable to get sensor values
+MongoError: connection 29 to localhost:27017 timed out
+March 14th 2018 3:26:51 am Unable to update current value
+MongoError: connection 46 to localhost:27017 timed out
+March 14th 2018 4:13:32 am Unable to get sensor values
+MongoError: connection 52 to localhost:27017 timed out
+March 14th 2018 4:13:32 am Unable to get sensor values
+MongoError: connection 53 to localhost:27017 timed out
+March 14th 2018 4:13:32 am Unable to get sensor values
+MongoError: connection 50 to localhost:27017 timed out
+March 14th 2018 4:13:32 am Unable to get sensor values
+MongoError: connection 51 to localhost:27017 timed out
+March 14th 2018 5:58:46 am Unable to update current value
+MongoError: connection 64 to localhost:27017 timed out
+March 14th 2018 6:57:06 am Error writing Heartbeat to database
+MongoError: connection 75 to localhost:27017 timed out
+March 14th 2018 8:06:59 am Error writing Heartbeat to database
+MongoError: connection 81 to localhost:27017 timed out
+March 14th 2018 8:06:59 am Unable to update current value
+MongoError: connection 81 to localhost:27017 timed out
+March 14th 2018 8:06:59 am Unable to update current value
+MongoError: connection 76 to localhost:27017 timed out
+March 14th 2018 8:06:59 am Error writing Heartbeat to database
+MongoError: connection 76 to localhost:27017 timed out
+March 14th 2018 8:06:59 am Unable to get sensor values
+MongoError: connection 79 to localhost:27017 timed out
+March 14th 2018 8:06:59 am Unable to get sensor values
+MongoError: connection 77 to localhost:27017 timed out
+March 14th 2018 8:06:59 am Unable to get sensor values
+MongoError: connection 68 to localhost:27017 timed out
+March 15th 2018 8:56:49 pm Error writing Heartbeat to database
+MongoError: connection 5 to localhost:27017 timed out
+March 15th 2018 8:56:49 pm Unable to update current value
+MongoError: connection 5 to localhost:27017 timed out
+March 15th 2018 8:56:49 pm Unable to get sensor values
+MongoError: connection 9 to localhost:27017 timed out
+March 15th 2018 8:56:49 pm Unable to get sensor values
+MongoError: connection 12 to localhost:27017 timed out
+March 15th 2018 8:56:49 pm Unable to get sensor values
+MongoError: connection 11 to localhost:27017 timed out
+March 15th 2018 10:44:15 pm Error writing Heartbeat to database
+MongoError: connection 22 to localhost:27017 timed out
+March 15th 2018 10:44:15 pm Unable to update current value
+MongoError: connection 22 to localhost:27017 timed out
+March 15th 2018 10:44:15 pm Unable to get sensor values
+MongoError: connection 18 to localhost:27017 timed out
+March 15th 2018 10:44:15 pm Unable to get sensor values
+MongoError: connection 21 to localhost:27017 timed out
+March 15th 2018 10:44:15 pm Unable to get sensor values
+MongoError: connection 20 to localhost:27017 timed out
+March 15th 2018 10:44:15 pm Unable to get sensor values
+MongoError: connection 19 to localhost:27017 timed out
+March 15th 2018 10:44:15 pm Unable to get sensor values
+MongoError: connection 19 to localhost:27017 timed out
+March 16th 2018 1:58:52 am Error writing Heartbeat to database
+MongoError: connection 46 to localhost:27017 timed out
+March 16th 2018 1:58:52 am Unable to update current value
+MongoError: connection 46 to localhost:27017 timed out
+March 16th 2018 1:58:52 am Unable to get sensor values
+MongoError: connection 48 to localhost:27017 timed out
+March 16th 2018 1:58:52 am Unable to get sensor values
+MongoError: connection 49 to localhost:27017 timed out
+March 16th 2018 1:58:52 am Unable to get sensor values
+MongoError: connection 42 to localhost:27017 timed out
+March 16th 2018 1:58:52 am Unable to get sensor values
+MongoError: connection 47 to localhost:27017 timed out
+March 16th 2018 2:54:38 am Unable to update current value
+MongoError: connection 50 to localhost:27017 timed out
+March 16th 2018 3:36:37 am Unable to update current value
+MongoError: connection 68 to localhost:27017 timed out
+March 16th 2018 4:04:40 am Unable to get sensor values
+MongoError: connection 79 to localhost:27017 timed out
+March 16th 2018 4:04:40 am Unable to get sensor values
+MongoError: connection 73 to localhost:27017 timed out
+March 16th 2018 4:04:40 am Unable to get sensor values
+MongoError: connection 78 to localhost:27017 timed out
+March 16th 2018 4:04:40 am Unable to get sensor values
+MongoError: connection 76 to localhost:27017 timed out
+March 16th 2018 7:34:48 am Error writing Heartbeat to database
+MongoError: connection 107 to localhost:27017 timed out
+March 16th 2018 7:34:48 am Unable to get sensor values
+MongoError: connection 108 to localhost:27017 timed out
+March 16th 2018 8:30:51 am Unable to get sensor values
+MongoError: connection 116 to localhost:27017 timed out
+March 16th 2018 8:30:51 am Unable to get sensor values
+MongoError: connection 114 to localhost:27017 timed out
+March 16th 2018 8:30:51 am Unable to get sensor values
+MongoError: connection 115 to localhost:27017 timed out
+March 16th 2018 11:04:59 am Error writing Heartbeat to database
+MongoError: connection 149 to localhost:27017 timed out
+March 16th 2018 11:04:59 am Error writing Heartbeat to database
+MongoError: connection 148 to localhost:27017 timed out
+March 16th 2018 11:04:59 am Error writing Heartbeat to database
+MongoError: connection 151 to localhost:27017 timed out
+March 16th 2018 11:18:46 am Error writing Heartbeat to database
+MongoError: connection 155 to localhost:27017 timed out
+March 16th 2018 3:02:37 pm Unable to update current value
+MongoError: connection 178 to localhost:27017 timed out
+March 16th 2018 3:02:37 pm Error writing Heartbeat to database
+MongoError: connection 179 to localhost:27017 timed out
+March 16th 2018 3:17:01 pm Unable to update current value
+MongoError: connection 185 to localhost:27017 timed out
+March 16th 2018 3:58:33 pm Unable to update current value
+MongoError: connection 188 to localhost:27017 timed out
+March 16th 2018 3:58:34 pm Unable to get sensor values
+MongoError: connection 192 to localhost:27017 timed out
+March 16th 2018 3:58:34 pm Unable to get sensor values
+MongoError: connection 192 to localhost:27017 timed out
+March 16th 2018 3:58:34 pm Unable to get sensor values
+MongoError: connection 192 to localhost:27017 timed out
+March 16th 2018 3:58:34 pm Unable to get sensor values
+MongoError: connection 193 to localhost:27017 timed out
+March 16th 2018 3:58:34 pm Unable to get sensor values
+MongoError: connection 194 to localhost:27017 timed out
+March 16th 2018 3:58:34 pm Unable to get sensor values
+MongoError: connection 194 to localhost:27017 timed out
+March 16th 2018 3:58:34 pm Unable to get sensor values
+MongoError: connection 194 to localhost:27017 timed out
+March 16th 2018 4:26:43 pm Unable to get sensor values
+MongoError: connection 198 to localhost:27017 timed out
+March 16th 2018 4:40:42 pm Error writing Heartbeat to database
+MongoError: connection 199 to localhost:27017 timed out
+March 16th 2018 4:40:42 pm Unable to update current value
+MongoError: connection 199 to localhost:27017 timed out
+March 16th 2018 4:40:42 pm Unable to get sensor values
+MongoError: connection 199 to localhost:27017 timed out
+March 16th 2018 4:40:42 pm Unable to get sensor values
+MongoError: connection 200 to localhost:27017 timed out
+March 16th 2018 4:40:42 pm Unable to get sensor values
+MongoError: connection 202 to localhost:27017 timed out
+March 16th 2018 4:40:42 pm Unable to get sensor values
+MongoError: connection 201 to localhost:27017 timed out
+March 16th 2018 6:46:40 pm Unable to update current value
+MongoError: connection 218 to localhost:27017 timed out
+March 16th 2018 6:46:40 pm Error writing Heartbeat to database
+MongoError: connection 218 to localhost:27017 timed out
+March 16th 2018 6:46:40 pm Unable to update current value
+MongoError: connection 218 to localhost:27017 timed out
+March 16th 2018 6:46:40 pm Error writing Heartbeat to database
+MongoError: connection 222 to localhost:27017 timed out
+March 16th 2018 6:46:40 pm Error writing Heartbeat to database
+MongoError: connection 222 to localhost:27017 timed out
+March 16th 2018 6:46:40 pm Unable to update current value
+MongoError: connection 222 to localhost:27017 timed out
+March 16th 2018 6:46:40 pm Unable to update current value
+MongoError: connection 221 to localhost:27017 timed out
+March 16th 2018 6:46:40 pm Unable to update current value
+MongoError: connection 221 to localhost:27017 timed out
+March 16th 2018 6:46:40 pm Unable to update current value
+MongoError: connection 221 to localhost:27017 timed out
+March 16th 2018 6:46:40 pm Unable to update current value
+MongoError: connection 221 to localhost:27017 timed out
+March 16th 2018 6:46:40 pm Unable to update current value
+MongoError: connection 223 to localhost:27017 timed out
+March 16th 2018 6:46:40 pm Unable to update current value
+MongoError: connection 223 to localhost:27017 timed out
+March 16th 2018 6:46:40 pm Unable to update current value
+MongoError: connection 223 to localhost:27017 timed out
+March 16th 2018 6:46:40 pm Error writing Heartbeat to database
+MongoError: connection 223 to localhost:27017 timed out
+March 16th 2018 7:00:53 pm Unable to get sensor values
+MongoError: connection 229 to localhost:27017 timed out
+March 16th 2018 7:00:53 pm Unable to get sensor values
+MongoError: connection 228 to localhost:27017 timed out
+March 16th 2018 7:00:53 pm Unable to get sensor values
+MongoError: connection 226 to localhost:27017 timed out
+March 16th 2018 7:00:53 pm Unable to get sensor values
+MongoError: connection 226 to localhost:27017 timed out
+March 16th 2018 8:10:49 pm Unable to update current value
+MongoError: connection 234 to localhost:27017 timed out
+March 16th 2018 8:38:54 pm Unable to get sensor values
+MongoError: connection 241 to localhost:27017 timed out
+March 16th 2018 8:38:54 pm Unable to get sensor values
+MongoError: connection 244 to localhost:27017 timed out
+March 16th 2018 8:38:54 pm Unable to get sensor values
+MongoError: connection 244 to localhost:27017 timed out
+March 16th 2018 8:38:54 pm Unable to get sensor values
+MongoError: connection 245 to localhost:27017 timed out
+March 16th 2018 8:38:54 pm Unable to get sensor values
+MongoError: connection 248 to localhost:27017 timed out
+March 16th 2018 8:38:54 pm Unable to get sensor values
+MongoError: connection 248 to localhost:27017 timed out
+March 16th 2018 8:38:54 pm Unable to get sensor values
+MongoError: connection 248 to localhost:27017 timed out
+March 16th 2018 10:02:48 pm Unable to update current value
+MongoError: connection 265 to localhost:27017 timed out
+March 16th 2018 10:02:48 pm Error writing Heartbeat to database
+MongoError: connection 264 to localhost:27017 timed out
+March 16th 2018 10:02:48 pm Unable to update current value
+MongoError: connection 263 to localhost:27017 timed out
+March 16th 2018 10:30:48 pm Unable to update current value
+MongoError: connection 267 to localhost:27017 timed out
+March 16th 2018 10:30:48 pm Unable to update current value
+MongoError: connection 267 to localhost:27017 timed out
+March 16th 2018 10:30:48 pm Unable to update current value
+MongoError: connection 269 to localhost:27017 timed out
+March 16th 2018 10:30:48 pm Unable to update current value
+MongoError: connection 269 to localhost:27017 timed out
+March 16th 2018 10:30:48 pm Error writing Heartbeat to database
+MongoError: connection 266 to localhost:27017 timed out
+March 16th 2018 10:30:48 pm Unable to update current value
+MongoError: connection 266 to localhost:27017 timed out
+March 16th 2018 11:26:50 pm Unable to get sensor values
+MongoError: connection 281 to localhost:27017 timed out
+March 16th 2018 11:26:50 pm Unable to get sensor values
+MongoError: connection 280 to localhost:27017 timed out
+March 17th 2018 1:04:52 am Error writing Heartbeat to database
+MongoError: connection 288 to localhost:27017 timed out
+March 17th 2018 1:04:52 am Error writing Heartbeat to database
+MongoError: connection 288 to localhost:27017 timed out
+March 17th 2018 1:04:52 am Unable to update current value
+MongoError: connection 291 to localhost:27017 timed out
+March 17th 2018 1:04:52 am Unable to update current value
+MongoError: connection 291 to localhost:27017 timed out
+March 17th 2018 1:04:52 am Error writing Heartbeat to database
+MongoError: connection 294 to localhost:27017 timed out
+March 17th 2018 1:04:52 am Error writing Heartbeat to database
+MongoError: connection 294 to localhost:27017 timed out
+March 17th 2018 1:04:52 am Unable to update current value
+MongoError: connection 294 to localhost:27017 timed out
+March 17th 2018 1:04:52 am Unable to update current value
+MongoError: connection 292 to localhost:27017 timed out
+March 17th 2018 1:04:52 am Unable to update current value
+MongoError: connection 292 to localhost:27017 timed out
+March 17th 2018 1:04:52 am Unable to update current value
+MongoError: connection 293 to localhost:27017 timed out
+March 17th 2018 1:04:52 am Unable to update current value
+MongoError: connection 293 to localhost:27017 timed out
+March 17th 2018 2:56:59 am Unable to update current value
+MongoError: connection 313 to localhost:27017 timed out
+March 17th 2018 2:56:59 am Unable to update current value
+MongoError: connection 314 to localhost:27017 timed out
+March 17th 2018 2:56:59 am Unable to update current value
+MongoError: connection 315 to localhost:27017 timed out
+March 17th 2018 2:57:00 am Unable to get sensor values
+MongoError: connection 313 to localhost:27017 timed out
+March 17th 2018 2:57:00 am Unable to get sensor values
+MongoError: connection 313 to localhost:27017 timed out
+March 17th 2018 2:57:00 am Unable to get sensor values
+MongoError: connection 314 to localhost:27017 timed out
+March 17th 2018 2:57:00 am Unable to get sensor values
+MongoError: connection 315 to localhost:27017 timed out
+March 17th 2018 3:38:52 am Error writing Heartbeat to database
+MongoError: connection 326 to localhost:27017 timed out
+March 17th 2018 3:38:53 am Unable to get sensor values
+MongoError: connection 320 to localhost:27017 timed out
+March 17th 2018 4:20:57 am Error writing Heartbeat to database
+MongoError: connection 338 to localhost:27017 timed out
+March 17th 2018 4:21:04 am Unable to get sensor values
+MongoError: connection 339 to localhost:27017 timed out
+March 17th 2018 5:17:15 am Unable to get sensor values
+MongoError: connection 341 to localhost:27017 timed out
+March 17th 2018 5:17:15 am Unable to get sensor values
+MongoError: connection 342 to localhost:27017 timed out
+March 17th 2018 5:17:15 am Unable to get sensor values
+MongoError: connection 340 to localhost:27017 timed out
+March 17th 2018 5:17:15 am Unable to get sensor values
+MongoError: connection 336 to localhost:27017 timed out
+March 17th 2018 7:37:01 am Unable to get sensor values
+MongoError: connection 356 to localhost:27017 timed out
+March 17th 2018 8:19:09 am Unable to update current value
+MongoError: connection 363 to localhost:27017 timed out
+March 17th 2018 8:19:09 am Unable to update current value
+MongoError: connection 363 to localhost:27017 timed out
+March 17th 2018 9:00:55 am Error writing Heartbeat to database
+MongoError: connection 379 to localhost:27017 timed out
+March 17th 2018 9:00:55 am Unable to update current value
+MongoError: connection 380 to localhost:27017 timed out
+March 17th 2018 9:00:55 am Error writing Heartbeat to database
+MongoError: connection 381 to localhost:27017 timed out
+March 17th 2018 9:29:18 am Unable to get sensor values
+MongoError: connection 387 to localhost:27017 timed out
+March 17th 2018 9:57:08 am Unable to get sensor values
+MongoError: connection 388 to localhost:27017 timed out
+March 17th 2018 11:35:04 am Unable to update current value
+MongoError: connection 402 to localhost:27017 timed out
+March 17th 2018 11:35:05 am Unable to get sensor values
+MongoError: connection 402 to localhost:27017 timed out
+March 17th 2018 11:35:05 am Unable to get sensor values
+MongoError: connection 403 to localhost:27017 timed out
+March 17th 2018 11:35:05 am Unable to get sensor values
+MongoError: connection 403 to localhost:27017 timed out
+March 17th 2018 11:35:05 am Unable to get sensor values
+MongoError: connection 403 to localhost:27017 timed out
+March 17th 2018 11:35:05 am Unable to get sensor values
+MongoError: connection 404 to localhost:27017 timed out
+March 17th 2018 11:49:12 am Unable to get sensor values
+MongoError: connection 406 to localhost:27017 timed out
+March 17th 2018 11:49:12 am Unable to get sensor values
+MongoError: connection 405 to localhost:27017 timed out
+March 17th 2018 11:49:12 am Unable to get sensor values
+MongoError: connection 405 to localhost:27017 timed out
+March 17th 2018 11:49:12 am Unable to get sensor values
+MongoError: connection 408 to localhost:27017 timed out
+March 17th 2018 11:49:12 am Unable to get sensor values
+MongoError: connection 407 to localhost:27017 timed out
+March 17th 2018 12:45:06 pm Error writing Heartbeat to database
+MongoError: connection 416 to localhost:27017 timed out
+March 17th 2018 12:45:06 pm Unable to update current value
+MongoError: connection 416 to localhost:27017 timed out
+March 17th 2018 12:45:06 pm Unable to update current value
+MongoError: connection 421 to localhost:27017 timed out
+March 17th 2018 12:45:06 pm Unable to update current value
+MongoError: connection 421 to localhost:27017 timed out
+March 17th 2018 12:45:06 pm Error writing Heartbeat to database
+MongoError: connection 424 to localhost:27017 timed out
+March 17th 2018 12:45:06 pm Unable to update current value
+MongoError: connection 424 to localhost:27017 timed out
+March 17th 2018 12:59:03 pm Error writing Heartbeat to database
+MongoError: connection 425 to localhost:27017 timed out
+March 17th 2018 12:59:03 pm Unable to update current value
+MongoError: connection 426 to localhost:27017 timed out
+March 17th 2018 1:13:02 pm Unable to update current value
+MongoError: connection 433 to localhost:27017 timed out
+March 17th 2018 1:27:13 pm Unable to update current value
+MongoError: connection 435 to localhost:27017 timed out
+March 17th 2018 3:06:17 pm Unable to update current value
+MongoError: connection 447 to localhost:27017 timed out
+March 17th 2018 3:06:17 pm Unable to update current value
+MongoError: connection 447 to localhost:27017 timed out
+March 17th 2018 3:06:17 pm Unable to update current value
+MongoError: connection 455 to localhost:27017 timed out
+March 17th 2018 3:06:17 pm Unable to update current value
+MongoError: connection 455 to localhost:27017 timed out
+March 17th 2018 3:06:17 pm Error writing Heartbeat to database
+MongoError: connection 457 to localhost:27017 timed out
+March 17th 2018 3:06:17 pm Unable to update current value
+MongoError: connection 457 to localhost:27017 timed out
+March 17th 2018 3:06:17 pm Unable to update current value
+MongoError: connection 457 to localhost:27017 timed out
+March 17th 2018 3:06:17 pm Unable to update current value
+MongoError: connection 452 to localhost:27017 timed out
+March 17th 2018 3:06:17 pm Error writing Heartbeat to database
+MongoError: connection 452 to localhost:27017 timed out
+March 17th 2018 3:06:17 pm Unable to update current value
+MongoError: connection 452 to localhost:27017 timed out
+March 17th 2018 3:20:25 pm Unable to get sensor values
+MongoError: connection 461 to localhost:27017 timed out
+April 6th 2018 4:40:49 pm Unable to update current value
+MongoError: connection 4 to localhost:27017 timed out
+April 6th 2018 4:40:49 pm Unable to update current value
+MongoError: connection 0 to localhost:27017 timed out
+April 6th 2018 4:40:49 pm Error writing Heartbeat to database
+MongoError: connection 1 to localhost:27017 timed out
+April 6th 2018 4:40:49 pm Unable to update current value
+MongoError: connection 3 to localhost:27017 timed out
+April 6th 2018 4:40:49 pm Unable to update current value
+MongoError: connection 2 to localhost:27017 timed out
+April 9th 2018 9:22:01 am Unable to get sensor values
+MongoError: connection 4 to localhost:27017 timed out
+April 9th 2018 9:22:01 am Unable to get sensor values
+MongoError: connection 1 to localhost:27017 timed out
+April 9th 2018 9:22:01 am Unable to get sensor values
+MongoError: connection 3 to localhost:27017 timed out
+April 9th 2018 9:22:01 am Unable to get sensor values
+MongoError: connection 2 to localhost:27017 timed out
+April 11th 2018 1:08:37 pm Unable to update current value
+MongoError: connection 4 to localhost:27017 timed out
+April 11th 2018 1:08:37 pm Unable to update current value
+MongoError: connection 4 to localhost:27017 timed out
+April 11th 2018 1:08:37 pm Unable to update current value
+MongoError: connection 2 to localhost:27017 timed out
+April 11th 2018 1:08:37 pm Unable to update current value
+MongoError: connection 1 to localhost:27017 timed out
+April 11th 2018 1:08:37 pm Error writing Heartbeat to database
+MongoError: connection 3 to localhost:27017 timed out
+April 11th 2018 1:08:37 pm Unable to update current value
+MongoError: connection 3 to localhost:27017 timed out
+April 11th 2018 1:08:37 pm Error writing Heartbeat to database
+MongoError: connection 0 to localhost:27017 timed out

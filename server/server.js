@@ -1,6 +1,20 @@
-/**/
+/*
+*
+*
+*
+*     Sanders Smart Home
+*     Home Controller app
+*           V0.1
+*
+*
+*
+*/
+
+// Require config file
 
 require('./config/config');
+
+// Require packages
 
 const http = require('http');
 const path = require('path');
@@ -11,13 +25,27 @@ const socketIO = require('socket.io');
 const request = require('request');
 const schedule = require('node-schedule');
 const moment = require('moment');
+const bodyParser = require('body-parser');
+
+if (process.env.NODE_ENV !== 'production'){
+  require('longjohn');
+}
+
+// Require DB connection
 
 const {ObjectID} = require('mongodb');
 const {mongoose} = require('./db/mongoose');
 
+// Require models & utils
+
 const {SensorNode} = require('./models/node');
 const {Setting} = require('./models/settings');
+const {Gateway} = require('./models/gateway');
 const {sunUpdate} = require('./utils/sunupdate');
+const {weatherUpdate} = require('./utils/weatherUpdate');
+const {systemUpdate} = require('./utils/systemUpdate');
+
+// Setup public path and port variables
 
 const publicPath = path.join(__dirname + '/../public');
 const port = process.env.PORT || 3000;
@@ -170,15 +198,7 @@ const S_GAS 	         			     = 37;
 const S_GPS 				             = 38;
 const S_WATER_QUALITY 			     = 39;
 
-// Payload Types?
-
-const P_STRING						      = 0;
-const P_BYTE						        = 1;
-const P_INT16						        = 2;
-const P_UINT16						      = 3;
-const P_LONG32						      = 4;
-const P_ULONG32						      = 5;
-const P_CUSTOM						      = 6;
+// Setup Express app, http server, socketIO server and MQTT client
 
 var app = express();
 var server = http.createServer(app);
@@ -186,6 +206,7 @@ var io = socketIO(server);
 var client  = mqtt.connect([{ host: 'localhost', port: 1883 }]);
 
 app.use(express.static(publicPath));
+app.use(bodyParser.json());
 
 /*
 
@@ -197,35 +218,43 @@ app.use(express.static(publicPath));
 
 client.on('connect', function () {
 
-  client.subscribe('mysensors-out/#');
+  client.subscribe('mysensors-utility-out/#');
+  
+  client.subscribe('jess-bedroom-out/#');
 
   console.log('Connected to MQTT broker');
 
 });
 
+// When a message is received...
+
 client.on('message', function (topic, message) {
+
+  // Use for debugging
+
+  // console.log(topic);
+  //
+  // console.log(message);
 
   // Decode MQTT Message
 
-  var payload = (message.toString()).trim();
-
   if ((topic != null) && (topic != "")) {
+
+    // Set variables from message
 
     var values = topic.toString().split("/");
 
+    var gateway = values[0];
     var rsender = values[1];
-
     var rsensor = values[2];
-
     var rcommand = values[3];
-
     var rack = values[4];
-
     var rtype = values[5];
-
     var payload = (message.toString()).trim();
 
   }
+
+  // Fire the relevant function based on the message command and type
 
   if (rcommand == C_PRESENTATION) {
 
@@ -255,436 +284,228 @@ client.on('message', function (topic, message) {
 
       sendTime(rsender, rsensor);
 
-    } else if (rtype == I_VERSION) {
+    } else if (rtype == I_HEARTBEAT_RESPONSE) {
 
-      // Gateway Version function to go here
+      saveHeartbeat(rsender);
 
     } else if (rtype == I_ID_REQUEST) {
 
       sendNextAvailableSensorId();
 
+    } else if (rtype == I_SKETCH_NAME) {
+
+      saveSketchName(rsender, payload);
+
+    } else if (rtype == I_SKETCH_VERSION) {
+
+      saveSketchVersion(rsender, payload);
+
+    } else if (rtype == I_CONFIG) {
+
+      sendConfig(rsender);
+
     }
 
   }
 
 });
+//
+// /*
+//
+//   Web Socket Stuff
+//
+// */
 
-/*
-
-  Web Socket Stuff
-
-*/
+// When a web socket connects...
 
 io.on('connection', (socket) => {
 
+  // Get all settings when the client requests
+
   socket.on('settings', (data, callback) => {
 
-    var url = 'http://192.168.1.69:3000/settings';
+    Setting.findOne()
+    .then((settings) => {
+      callback({settings});
 
-    var getOptions = { method: 'GET',
-        url: url,
-        headers:
-          { 'content-type': 'application/json' },
-        json: true };
+      settings = null;
 
-    request(getOptions, function (error, response, body) {
-
-      if (error) throw new Error(error);
-
-      // Need to handle so this doesn;t stop the server when there is no data, so when the system first starts
-
-      var settings = body;
-
-      callback(settings);
-
+    }, (e) => {
+      callback(e);
     });
 
+  });
+  //
+  // // Get all sensors when the client requests
+  //
+  socket.on('sensors', (data, callback) => {
+
+    SensorNode.find()
+    .select('name id sensors.id sensors.name sensors.currentValue sensors.valueUpdated sensors.type')
+    .exec()
+    .then((sensors) => {
+      callback({sensors});
+      sensors = null;
+    }, (e) => {
+      callback(e);
+    });
 
   });
-
+  //
+  // // Get a value from a specific sensor when the client requests
+  //
   socket.on('value', (data, callback) => {
 
-    var destination = data.destination;
-    var sensor = data.sensor;
-    var url = 'http://192.168.1.69:3000/values/' + destination + '/' + sensor;
+    var rsender = data.destination;
+    var rsensor = data.sensor;
+    SensorNode.findOne({
+        "id": rsender,
+        "sensors.id": rsensor
+      }, {
+        'sensors.$': 1
+      })
+      .select(
+        'sensors.currentValue sensors.valueUpdated sensors.type sensors.roToggleHtmlId sensors.valueHtmlId sensors.id')
+      .exec()
+      .then((value) => {
 
-    var getOptions = { method: 'GET',
-        url: url,
-        headers:
-          { 'content-type': 'application/json' },
-        json: true };
+        callback({
+          currentValue: value.sensors[0].currentValue,
+          valueUpdated: value.sensors[0].valueUpdated,
+          type: value.sensors[0].type,
+          roToggleHtmlId: value.sensors[0].roToggleHtmlId,
+          valueHtmlId: value.sensors[0].valueHtmlId
+        });
 
-    request(getOptions, function (error, response, body) {
+        value = null;
 
-      if (error) throw new Error(error);
+      }, (e) => {
 
-      // Need to handle so this doesn;t stop the server when there is no data, so when the system first starts
+        callback(e);
 
-      callback(body);
-
-    });
+      });
 
   });
-
+  //
+  // // Get graph data values when the client requests
+  //
   socket.on('graph', (data, callback) => {
 
     var graph = [];
-
     var j = 0;
 
     for (var i = 0; i<data.sensors.length; i++) {
 
-      var destination = data.sensors[i].destination;
-
-      var sensor = data.sensors[i].sensor;
-
-      var url = 'http://192.168.1.69:3000/graph/' + destination + '/' + sensor;
-
-      var getOptions = { method: 'GET',
-          url: url,
-          headers:
-            { 'content-type': 'application/json' },
-          json:true };
-
-      request(getOptions, function (error, response, body) {
+      var rsender = data.sensors[i].destination;;
+      var rsensor = data.sensors[i].sensor;
+      SensorNode.findOne({
+        "id": rsender,
+        "sensors.id": rsensor
+      }, {
+        'sensors.$': 1
+      })
+      .select('sensors.values sensors.graphHtmlId')
+      .exec()
+      .then((values) => {
 
         j++;
 
-        if (error) throw new Error(error);
+        graph.push({
+          graphHtmlId: values.sensors[0].graphHtmlId,
+          values: values.sensors[0].values
+        });
 
-        //console.log(error);
-
-        graph.push(body);
+        values = null;
 
         if (j == data.sensors.length) {
-
           callback(graph);
-
+          graph = null;
         }
+
+      }, (e) => {
+
+        callback(e);
 
       });
 
     }
-
   });
+  //
+  // Update a value in the DB
 
-  socket.on('percent', (percent) => {
+  socket.on('saveValue', (value) => {
 
-    var destination = percent.destination;
-    var sensor = percent.sensor;
-    var payload = percent.percent;
-    var url = 'http://192.168.1.69:3000/percent/' + destination + '/' + sensor + '/' + payload;
+    var rsender = value.destination;
+    var rsensor = value.sensor;
+    var payload = value.value;
     var command = 1;
     var acknowledge = 0;
-    var type = 3;
-    var topic = 'mysensors-in/' + destination + '/' + sensor + '/' + command + '/' + acknowledge + '/' + type;
+    var type = value.type;
+    var topic = 'mysensors-utility-in/' + rsender + '/' + rsensor + '/' + command + '/' + acknowledge + '/' + type;
 
     client.publish(topic.toString(), payload.toString());
-
-    var getOptions = { method: 'PATCH',
-        url: url,
-        headers:
-          { 'content-type': 'application/json' },
-        json: true };
-
-    request(getOptions, function (error, response, body) {
-
-      if (error) throw new Error(error);
-
-      // Need to handle so this doesn;t stop the server when there is no data, so when the system first starts
-
-    });
-
-  });
-
-  socket.on('colour', (colour) => {
-
-    var destination = colour.destination;
-    var sensor = colour.sensor;
-    var payload = colour.colour;
-    var url = 'http://192.168.1.69:3000/colour/' + destination + '/' + sensor + '/' + payload;
-    var command = 1;
-    var acknowledge = 0;
-    var type = 40;
-    var topic = 'mysensors-in/' + destination + '/' + sensor + '/' + command + '/' + acknowledge + '/' + type;
-
+    
+    topic = 'jess-bedroom-in/' + rsender + '/' + rsensor + '/' + command + '/' + acknowledge + '/' + type;
+    
     client.publish(topic.toString(), payload.toString());
 
-    var patchOptions = { method: 'PATCH',
-        url: url,
-        headers:
-          { 'content-type': 'application/json' },
-        json: true };
-
-    request(patchOptions, function (error, response, body) {
-
-      if (error) throw new Error(error);
-
-      // Need to handle so this doesn;t stop the server when there is no data, so when the system first starts
-
-    });
+    saveValue(rsender, rsensor, payload);
 
   });
-
-  socket.on('toggle', (toggle) => {
-
-    var payload = toggle.toggle;
-    var destination = toggle.destination;
-    var sensor = toggle.sensor;
-    var url = 'http://192.168.1.69:3000/toggle/' + destination + '/' + sensor + '/' + payload;
-    var command = 1;
-    var acknowledge = 0;
-    var type = 2;
-    var topic = 'mysensors-in/' + destination + '/' + sensor + '/' + command + '/' + acknowledge + '/' + type;
-
-    client.publish(topic.toString(), payload.toString());
-
-    var patchOptions = { method: 'PATCH',
-        url: url,
-        headers:
-          { 'content-type': 'application/json' },
-        json: true };
-
-    request(patchOptions, function (error, response, body) {
-
-      if (error) throw new Error(error);
-
-      // Need to handle so this doesn;t stop the server when there is no data, so when the system first starts
-
-    });
-
-  });
-
 });
+//
+// /*
+//
+//   Routes
+//
+// */
+//
+app.patch('/system/:gateway', (req, res) => {
 
-/*
+  var id = req.params.gateway;
 
-  Routes
+  Gateway.findOneAndUpdate({
 
-*/
-
-app.get('/settings', (req, res) => {
-
-  Setting.findOne().then((value) => {
-
-    res.send({value});
-
-  }, (e) => {
-
-    res.send(e);
-
-  });
-
-});
-
-app.get('/values/:id/:sensor', (req, res) => {
-
-  SensorNode.find({
-
-    "id": req.params.id,
-    "sensors.id": req.params.sensor
-
-  }, "sensors.$.currentValue").then((value) => {
-
-    res.send({value});
-
-  }, (e) => {
-
-    res.send(e);
-
-  });
-
-});
-
-app.get('/graph/:id/:sensor', (req, res) => {
-
-  SensorNode.findOne({
-
-    "id": req.params.id,
-    "sensors.id": req.params.sensor
-
-  }, "sensors.$.values").batchSize(100).then((values) => {
-
-    res.send({values});
-
-  }, (e) => {
-
-    res.send(e);
-
-  });
-
-});
-
-app.patch('/percent/:id/:sensor/:percent', (req, res) => {
-
-  SensorNode.update({id: req.params.id, "sensors.id": req.params.sensor},
-
-    {
-
-      $set: {
-
-        "sensors.$.currentValue": req.params.percent,
-        "sensors.$.valueUpdated": new Date().getTime()
-
-      }
-
-  }, function(err, result) {
-
-      if(err) {
-
-        console.log(err);
-
-      }
-
-  });
-
-  var value = {
-
-    timestamp: new Date().getTime(),
-    value: req.params.percent
-
-  }
-
-  SensorNode.findOneAndUpdate({
-
-    "id": req.params.id,
-    "sensors.id": req.params.sensor
+    id: id
 
   }, {
 
-    "$push": {
+    $set: {
 
-      "sensors.$.values": value
+      boardTemp: req.body.boardTemp,
+      memTotal: req.body.memTotal,
+      memFree: req.body.memFree,
+      memUsed: req.body.memUsed,
+      memAvail: req.body.memAvail,
+      platform: req.body.platform,
+      distro: req.body.distro,
+      release: req.body.release,
+      kernel: req.body.kernel,
+      hostname: req.body.hostname,
+      bootSize: req.body.bootSize,
+      bootUsed: req.body.bootUsed,
+      bootName: req.body.bootName,
+      rootSize: req.body.rootSize,
+      rootUsed: req.body.rootUsed,
+      rootName: req.body.rootName,
+      currentLoad: req.body.currentLoad,
+      avgLoad: req.body.avgLoad,
+      modified: new Date().getTime()
 
     }
 
-  }, function(err, result) {
+  }).then(() => {
 
-    res.send({result});
+    res.send();
 
-    if (err) {
+  }).catch((e) => {
 
-      console.log(err);
+    res.status(400).send();
 
-    }
-
-  });
+  });;
 
 });
 
-app.patch('/colour/:id/:sensor/:colour', (req, res) => {
-
-  SensorNode.update({id: req.params.id, "sensors.id": req.params.sensor},
-
-    {
-
-      $set: {
-
-        "sensors.$.currentValue": req.params.colour,
-        "sensors.$.valueUpdated": new Date().getTime()
-
-      }
-
-  }, function(err, result) {
-
-      if(err) {
-
-        console.log(err);
-
-      }
-
-  });
-
-  var value = {
-
-    timestamp: new Date().getTime(),
-    value: req.params.colour
-
-  }
-
-  SensorNode.findOneAndUpdate({
-
-    "id": req.params.id,
-    "sensors.id": req.params.sensor
-
-  }, {
-
-    "$push": {
-
-      "sensors.$.values": value
-
-    }
-
-  }, function(err, result) {
-
-    res.send({result});
-
-    if (err) {
-
-      console.log(err);
-
-    }
-
-  });
-
-});
-
-app.patch('/toggle/:id/:sensor/:toggle', (req, res) => {
-
-  SensorNode.update({id: req.params.id, "sensors.id": req.params.sensor},
-
-    {
-
-      $set: {
-
-        "sensors.$.currentValue": req.params.toggle,
-        "sensors.$.valueUpdated": new Date().getTime()
-
-      }
-
-  }, function(err, result) {
-
-      if(err) {
-
-        console.log(err);
-
-      }
-
-  });
-
-  var value = {
-
-    timestamp: new Date().getTime(),
-    value: req.params.toggle
-
-  }
-
-  SensorNode.findOneAndUpdate({
-
-    "id": req.params.id,
-    "sensors.id": req.params.sensor
-
-  }, {
-
-    "$push": {
-
-      "sensors.$.values": value
-
-    }
-
-  }, function(err, result) {
-
-    res.send({result});
-
-    if (err) {
-
-      console.log(err);
-
-    }
-
-  });
-
-});
 
 /*
 
@@ -692,18 +513,36 @@ app.patch('/toggle/:id/:sensor/:toggle', (req, res) => {
 
 */
 
+// Sunset / Sunrise DB Settings update job - runs at 3 am daily
+
 var j = schedule.scheduleJob('0 3 * * *', function(){
 
   sunUpdate();
 
 });
 
-/*
+// Live Weather Update job - runs every 5 minutes
 
-  Start Server
+var k = schedule.scheduleJob('*/1 * * * *', function(){
 
-*/
+  weatherUpdate();
 
+});
+
+// Live System Update job - runs every 1 minute
+
+var l = schedule.scheduleJob('*/1 * * * *', function(){
+
+  systemUpdate();
+
+});
+//
+// /*
+//
+//   Start Server
+//
+// */
+//
 server.listen(port, () => {
 
   console.log(`Server is running on port ${port}`);
@@ -716,38 +555,32 @@ server.listen(port, () => {
 
 */
 
+// When a new node connects to the gateway it will request an ID - This function assigns and sends one
+
 function sendNextAvailableSensorId() {
 
-  // Need to sort the results and look for gaps in the ID sequence so they can be reused when nodes are deleted
+  // Need to look for gaps in the ID sequence so they can be reused when nodes are deleted
 
-  SensorNode.find().exec(function (err, results) {
-
-    if (err) {
-
-      console.log('Error finding Nodes');
-
-    }
+  SensorNode.find()
+  .sort({
+    id: 'asc'
+  })
+  .select('id')
+  .exec()
+  .then((results) => {
 
     var newid;
-
     var length = results.length;
 
     if (length > 0) {
-
-        newid = results[length -1].id + 1;
-
+      newid = (results[length - 1].id) + 1;
     } else {
-
       newid = 1;
-
     }
 
     if (newid < 255) {
-
       var sensorNode = new SensorNode({
-
         id: newid
-
       })
 
       sensorNode.save();
@@ -758,261 +591,295 @@ function sendNextAvailableSensorId() {
       var acknowledge = 0; // no ack
       var type = I_ID_RESPONSE;
       var payload = newid;
-
-      var topic = 'mysensors-in/' + destination + '/' + sensor + '/' + command + '/' + acknowledge + '/' + type;
+      var topic = 'mysensors-utility-in/' + destination + '/' + sensor + '/' + command + '/' + acknowledge + '/' + type;
 
       client.publish(topic.toString(), payload.toString());
+      
+      topic = 'jess-bedroom-in/' + destination + '/' + sensor + '/' + command + '/' + acknowledge + '/' + type;
+      
+      client.publish(topic.toString(), payload.toString());
+
+    } else {
+
+      var today = new Date();
+      var time = moment(today).format('h:mm:ss a');
+      var date = moment(today).format('MMMM Do YYYY');
+
+      fs.appendFileSync('app.log', date + " " + time + " ");
+
+      fs.appendFileSync('app.log', "To many Nodes in the DB - IDs have exceeded 255\n");
 
     }
 
-  });
+    results = null;
 
+  }, (e) => {
+
+    var today = new Date();
+    var time = moment(today).format('h:mm:ss a');
+    var date = moment(today).format('MMMM Do YYYY');
+
+    fs.appendFileSync('app.log', date + " " + time + " ");
+
+    fs.appendFileSync('app.log', "Error finding Nodes" + "\n" + e + "\n");
+
+  });
 }
+
+// When a new node connects, or a node reboots, save the version of mysensors it is running
 
 function saveProtocol(rsender, payload) {
 
   SensorNode.findOneAndUpdate({
-
     id: rsender
-
   }, {
-
     $set: {
-
       protocol: payload
-
     }
+  }).then(() => {
 
-  }, function(err, result) {
+  }, (e) => {
 
-    if (err) {
+    var today = new Date();
+    var time = moment(today).format('h:mm:ss a');
+    var date = moment(today).format('MMMM Do YYYY');
 
-      console.log("Error writing protocol to database");
+    fs.appendFileSync('app.log', date + " " + time + " ");
 
-    }
+    fs.appendFileSync('app.log', "Error saving protocol" + "\n" + e + "\n");
 
   });
-
 }
+
+// Save a new sensor when it first connects, update if the node reboots
 
 function saveSensor(rsender, rsensor, rtype) {
 
   var sensor = {
-
     sensors: {
-
       id: rsensor,
       type: rtype
-
     }
-
   }
 
   SensorNode.find({
-
     "id": rsender
-
   }).then((data) => {
 
     var exists;
 
-    if (data[0].sensors.length != 0){
+    if (data[0] && data[0].sensors.length != 0){
 
       for (var i=0; i<data[0].sensors.length; i++) {
 
         if (data[0].sensors[i].id != rsensor) {
-
            exists = 0;
-
          } else {
-
            exists = 1;
-
            return exists;
-
          }
-
       }
-
       return exists;
-
     } else {
-
       SensorNode.findOneAndUpdate({
-
         id: rsender
-
       }, {
-
         $push:sensor
-
       }, {
-
         new: true
-
-      }, function(err, result) {
-
+      }, function(err) {
         if (err) {
 
-          console.log("Error writing sensor to database");
+          var today = new Date();
+          var time = moment(today).format('h:mm:ss a');
+          var date = moment(today).format('MMMM Do YYYY');
+
+          fs.appendFileSync('app.log', date + " " + time + " ");
+
+          fs.appendFileSync('app.log', "Error writing sensor to database" + "\n" + err + "\n");
 
         }
-
         exists = 1;
-
         return exists;
-
       });
-
     }
+
+    data = null;
+
+  }, (e) => {
+
+    var today = new Date();
+    var time = moment(today).format('h:mm:ss a');
+    var date = moment(today).format('MMMM Do YYYY');
+
+    fs.appendFileSync('app.log', date + " " + time + " ");
+
+    fs.appendFileSync('app.log', "Error writing sensor to database" + "\n" + e + "\n");
 
   }).then((exists) => {
 
     if (exists == 0) {
 
       SensorNode.findOneAndUpdate({
-
         id: rsender
-
       }, {
-
         $push:sensor
-
       }, {
-
         new: true
+      }).then(() => {}, (e) => {
 
-      }, function(err, result) {
+        var today = new Date();
+        var time = moment(today).format('h:mm:ss a');
+        var date = moment(today).format('MMMM Do YYYY');
 
-        if (err) {
+        fs.appendFileSync('app.log', date + " " + time + " ");
 
-          console.log("Error writing sensor to database");
-
-        }
+        fs.appendFileSync('app.log', "Error writing sensor to database" + "\n" + e + "\n");
 
       });
 
     }
+  }, (e) => {
+
+    var today = new Date();
+    var time = moment(today).format('h:mm:ss a');
+    var date = moment(today).format('MMMM Do YYYY');
+
+    fs.appendFileSync('app.log', date + " " + time + " ");
+
+    fs.appendFileSync('app.log', "Error writing sensor to database" + "\n" + e + "\n");
 
   });
-
 }
+
+// Save a value - Update the currentValue field every time, but only update the time series every 10 mins min
 
 function saveValue(rsender, rsensor, payload) {
 
-  SensorNode.find({id: rsender}, function(err, result) {
+  var snapshot = {
+    timestamp: new Date().getTime(),
+    value: payload
+  }
 
-    for (var i=0; i<result[0].sensors.length; i++) {
+  SensorNode.findOneAndUpdate({
+    "id": rsender,
+    "sensors.id": rsensor
+  }, {
+    $set: {
+      "sensors.$.currentValue": payload,
+      "sensors.$.valueUpdated": new Date().getTime()
+    }
+  })
+  .exec()
+  .then(() => {
 
-      if(result[0].sensors[i].id == rsensor) {
+    SensorNode.findOne({
+      "id": rsender,
+      "sensors.id": rsensor
+    }, {
+      'sensors.$': 1
+    })
+    .exec()
+    .then((sensor) => {
 
-        var valuesLength = result[0].sensors[i].values.length;
+      var htmlId = sensor.sensors[0].valueHtmlId;
 
-        var lastValue;
+      if (htmlId != 0) {
 
-        if (valuesLength != 0) {
+        var clientSensor = {
 
-          valuesLength = valuesLength - 1;
-
-          lastValue = moment(result[0].sensors[i].values[valuesLength].timestamp).format();
-
-        }
-
-        var nowMinusTen = moment(new Date().getTime()).subtract(10, 'minutes').format();
-
-        if (valuesLength == 0 || lastValue < nowMinusTen) {
-
-          var value = {
-
-            timestamp: new Date().getTime(),
-            value: payload
-
-          }
-
-          if (valuesLength > 500) {
-
-            var objID = result[0].sensors[i].values[0]._id;
-
-            SensorNode.findOneAndUpdate({
-
-              "id": rsender,
-              "sensors.id": rsensor
-
-            }, {
-
-              "$pull": {
-
-                "sensors.$.values": {_id: objID}
-
-              }
-
-            }, function(err, result) {
-
-              if (err) {
-
-                console.log(err);
-
-              }
-
-            });
-
-          }
-
-          SensorNode.findOneAndUpdate({
-
-            "id": rsender,
-            "sensors.id": rsensor
-
-          }, {
-
-            "$push": {
-
-              "sensors.$.values": value
-
-            }
-
-          }, function(err, result) {
-
-            if (err) {
-
-              console.log(err);
-
-            }
-
-          });
+          node: rsender,
+          sensor: rsensor,
+          htmlId: sensor.sensors[0].valueHtmlId,
+          value: sensor.sensors[0].currentValue,
+          updated: sensor.sensors[0].valueUpdated,
+          type: sensor.sensors[0].type
 
         }
+
+        io.emit('statusChange', clientSensor);
 
       }
 
-    }
+      var values = sensor.sensors[0].values.sort(function(a, b){return a.timestamp - b.timestamp});
+      var valuesLength = values.length;
 
-    if(err) {
+      var lastValueArray = valuesLength - 1;
+      lastValue = moment(values[lastValueArray].timestamp).format();
 
-      console.log(err);
+      var nowMinusTen = moment(new Date().getTime()).subtract(10, 'minutes').format();
 
-    }
+      if (valuesLength == 0 || lastValue < nowMinusTen) {
+
+        SensorNode.findOneAndUpdate({
+
+          "id": rsender,
+          "sensors.id": rsensor
+
+        }, {
+
+          "$push": {
+
+            "sensors.$.values": {
+
+              "$each": [snapshot],
+              "$sort": {timestamp: 1},
+              "$slice": -50
+
+            }
+
+          }
+
+        })
+        .exec()
+        .then(() => {
+
+        }, (e) => {
+
+          var today = new Date();
+          var time = moment(today).format('h:mm:ss a');
+          var date = moment(today).format('MMMM Do YYYY');
+
+          fs.appendFileSync('app.log', date + " " + time + " ");
+
+          fs.appendFileSync('app.log', "Unable to update values" + "\n" + e + "\n");
+
+          e = null;
+
+        });
+
+      }
+
+      sensor = null;
+      clientSensor = null;
+
+    }, (e) => {
+
+      var today = new Date();
+      var time = moment(today).format('h:mm:ss a');
+      var date = moment(today).format('MMMM Do YYYY');
+
+      fs.appendFileSync('app.log', date + " " + time + " ");
+
+      fs.appendFileSync('app.log', "Unable to get sensor values" + "\n" + e + "\n");
+
+    });
+
+  }, (e) => {
+
+    var today = new Date();
+    var time = moment(today).format('h:mm:ss a');
+    var date = moment(today).format('MMMM Do YYYY');
+
+    fs.appendFileSync('app.log', date + " " + time + " ");
+
+    fs.appendFileSync('app.log', "Unable to update current value" + "\n" + e + "\n");
 
   });
 
-  SensorNode.update({id: rsender, "sensors.id": rsensor},
-
-    {
-      $set: {
-
-        "sensors.$.currentValue": payload,
-        "sensors.$.valueUpdated": new Date().getTime()
-
-      }
-
-  }, function(err, result) {
-      if(err) {
-        console.log(err);
-      }
-
-});
-
 }
+
+// Send the time to a node that has requested it
 
 function sendTime(destination, sensor) {
 
@@ -1021,45 +888,207 @@ function sendTime(destination, sensor) {
   var acknowledge = 0; // no ack
 	var type = I_TIME;
 
-  var topic = 'mysensors-in/' + destination + '/' + sensor + '/' + command + '/' + acknowledge + '/' + type;
+  var topic = 'mysensors-utility-in/' + destination + '/' + sensor + '/' + command + '/' + acknowledge + '/' + type;
 
+  client.publish(topic.toString(), payload.toString());
+  
+  topic = 'jess-bedroom-in/' + destination + '/' + sensor + '/' + command + '/' + acknowledge + '/' + type;
+  
   client.publish(topic.toString(), payload.toString());
 
 }
 
+// Save a battery level sent by a battery node
+
 function saveBatteryLevel(rsender, payload) {
 
   var battLevel = {
-
     battLevels: {
-
       timestamp: new Date().getTime(),
       value: payload
-
     }
-
   }
 
   SensorNode.findOneAndUpdate({
-
-    id: rsender
-
+    "id": rsender
   }, {
-
-    $push:battLevel
-
-  }, {
-
-    new: true
-
-  }, function(err, result) {
-
-    if (err) {
-
-      console.log("Error writing sensor to database");
-
+    $set: {
+      "currentBattValue": payload
     }
+  })
+  .exec()
+  .then(() => {
+
+    SensorNode.findOne({
+      "id": rsender
+    })
+    .select('id battLevels')
+    .exec()
+    .then((battLevels) => {
+
+      var values = battLevels.battLevels.sort(function(a, b){return a.timestamp - b.timestamp});
+      var valuesLength = values.length;
+
+      var lastValueArray = valuesLength - 1;
+      lastValue = moment(values[lastValueArray].timestamp).format();
+
+      var nowMinusTen = moment(new Date().getTime()).subtract(10, 'minutes').format();
+
+      if (valuesLength == 0 || lastValue < nowMinusTen) {
+
+        SensorNode.findOneAndUpdate({
+
+          "id": rsender,
+
+        }, {
+
+          "$push": {
+
+            "battLevels": {
+
+              "$each": [battLevel],
+              "$sort": {timestamp: 1},
+              "$slice": -50
+
+            }
+
+          }
+
+        })
+        .exec()
+        .then(() => {
+
+        }, (e) => {
+
+          var today = new Date();
+          var time = moment(today).format('h:mm:ss a');
+          var date = moment(today).format('MMMM Do YYYY');
+
+          fs.appendFileSync('app.log', date + " " + time + " ");
+
+          fs.appendFileSync('app.log', "Unable to update battery values" + "\n" + e + "\n");
+
+        });
+
+      }
+
+    }, (e) => {
+
+      var today = new Date();
+      var time = moment(today).format('h:mm:ss a');
+      var date = moment(today).format('MMMM Do YYYY');
+
+      fs.appendFileSync('app.log', date + " " + time + " ");
+
+      fs.appendFileSync('app.log', "Unable to update battery values" + "\n" + e + "\n");
+
+    });
+
+  }, (e) => {
+
+    var today = new Date();
+    var time = moment(today).format('h:mm:ss a');
+    var date = moment(today).format('MMMM Do YYYY');
+
+    fs.appendFileSync('app.log', date + " " + time + " ");
+
+    fs.appendFileSync('app.log', "Unable to update battery values" + "\n" + e + "\n");
 
   });
+
+}
+
+// Save the Sketch Name of a node when it starts up
+
+function saveSketchName(rsender, payload) {
+
+  SensorNode.findOneAndUpdate({
+    id: rsender
+  }, {
+    $set: {
+      sketchName: payload
+    }
+  })
+  .exec()
+  .then(() => {}, (e) => {
+
+    var today = new Date();
+    var time = moment(today).format('h:mm:ss a');
+    var date = moment(today).format('MMMM Do YYYY');
+
+    fs.appendFileSync('app.log', date + " " + time + " ");
+
+    fs.appendFileSync('app.log', "Error writing Sketch Name to database" + "\n" + e + "\n");
+
+  });
+}
+
+// Save the Sketch Version of a node when it starts up
+
+function saveSketchVersion(rsender, payload) {
+
+  SensorNode.findOneAndUpdate({
+    id: rsender
+  }, {
+    $set: {
+      sketchVersion: payload
+    }
+  })
+  .exec()
+  .then(() => {}, (e) => {
+
+    var today = new Date();
+    var time = moment(today).format('h:mm:ss a');
+    var date = moment(today).format('MMMM Do YYYY');
+
+    fs.appendFileSync('app.log', date + " " + time + " ");
+
+    fs.appendFileSync('app.log', "Error writing Sketch Version to database" + "\n" + e + "\n");
+
+  });
+}
+
+// Save Heartbeat timestamp
+
+function saveHeartbeat(rsender) {
+
+  SensorNode.findOneAndUpdate({
+    id: rsender
+  }, {
+    $set: {
+      lastHeartbeat: new Date().getTime()
+    }
+  })
+  .exec()
+  .then(() => {}, (e) => {
+
+    var today = new Date();
+    var time = moment(today).format('h:mm:ss a');
+    var date = moment(today).format('MMMM Do YYYY');
+
+    fs.appendFileSync('app.log', date + " " + time + " ");
+
+    fs.appendFileSync('app.log', "Error writing Heartbeat to database" + "\n" + e + "\n");
+
+  });
+}
+
+// Send Configuration - M (metric) or I (imperial) on config request
+
+function sendConfig(rsender) {
+
+  var destination = rsender;
+  var sensor = NODE_SENSOR_ID;
+	var command = C_INTERNAL;
+	var acknowledge = 0; // no ack
+	var type = I_CONFIG;
+  var payload = "M";
+  var topic = 'mysensors-utility-in/' + destination + '/' + sensor + '/' + command + '/' + acknowledge + '/' + type;
+
+  client.publish(topic.toString(), payload.toString());
+  
+  topic = 'jess-bedroom-in/' + destination + '/' + sensor + '/' + command + '/' + acknowledge + '/' + type;
+  
+  client.publish(topic.toString(), payload.toString());
 
 }

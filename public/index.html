@@ -24,6 +24,8 @@
 
     <link rel="stylesheet" href="css/chartist.min.css">
 
+    <!-- Custom Styles -->
+
     <link rel="stylesheet" type="text/css" media="all" href="css/style.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -36,6 +38,8 @@
   </head>
 
   <body onload="startTime()">
+
+    <!-- Top Navbar -->
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
 
@@ -77,6 +81,8 @@
 
     </nav><!-- navbar -->
 
+    <!-- Sidebar -->
+
     <div class="container-fluid">
 
       <div class="row">
@@ -85,81 +91,117 @@
 
           <ul class="nav nav-sidebar">
 
-            <li class="active"><a href="index.html">Sensors<span class="sr-only">(current)</span></a></li>
+            <li class="active"><a href="rooms.html"><img src="img/opened-door-aperture.png" /></a></li>
 
-            <li><a href="cameras.html">Cameras</a></li>
+            <li><a href="sensors.html"><img src="img/exposure.png" /></a></li>
 
-            <li><a href="#">Entertainment</a></li>
+            <li><a href="cctv.html"><img src="img/cctv.png" /></a></li>
 
-            <li><a href="#">Scenes</a></li>
+            <li><a href="data.html"><img src="img/line-chart.png" /></a></li>
+
+            <li><a href="entertainment.html"><img src="img/speaker.png" /></a></li>
+
+            <li><a href="scenes.html"><img src="img/picture.png" /></a></li>
 
           </ul>
 
         </div><!-- sidebar -->
 
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <!-- Main Content -->
 
-          <h1 class ="page-header">Dashboard</h1>
+        <div class="col-sm-12 col-md-10 col-md-offset-2 main">
+
+          <h1 class ="page-header">Utility Room</h1>
+
+          <!-- First Row -->
 
           <div class="row">
 
-            <div class="col-xs-6 col-sm-4">
+            <!-- Sensor Info and Weather -->
 
-              <div class="row">
+            <div class="col-xs-12 col-sm-4">
 
-                <div id="temp" class="jumbotron"></div>
+              <div id="weather" class="jumbotron">
 
-              </div><!-- row -->
+                <div class="row">
 
-              <div class="row">
+                  <div class="col-xs-9">
 
-                <div id="triggers" class="jumbotron">
+                    <div id="18">
 
-                  <div class="row">
+                      <!-- Sensor Value - Probably Temperature -->
 
-                    <div class="col-xs-12 col-sm-6">
+                    </div>
 
-                      <label class="switch">
+                  </div><!-- col -->
 
-                        <input type="checkbox" class="checkbox_check toggle" id="20" readonly>
+                  <div class="col-xs-3">
 
-                        <span class="slider round"></span>
+                    <div class="row" style="margin: auto;">
 
-                      </label>
+                      <img src="img/compass.png" />
 
-                      <p>Motion Sensor</p>
+                    </div><!-- row -->
 
-                    </div><!-- col -->
+                    <div class="row" id="windDirection" style="margin: auto;">
 
-                    <div class="col-xs-12 col-sm-6">
+                      <!-- Wind Direction -->
 
-                      <label class="switch">
+                    </div><!-- row -->
 
-                        <input type="checkbox" class="checkbox_check toggle" id="21" readonly>
+                  </div><!-- col -->
 
-                        <span class="slider round"></span>
+                </div><!-- row -->
 
-                      </label>
+                <div class="row">
 
-                      <p>Door Sensor</p>
+                  <div class="col-xs-9">
 
-                    </div><!-- col -->
+                    <div id="25">
 
-                  </div><!-- row -->
+                      <!-- Sensor Value - Probably Humidity -->
 
-                </div><!--  jumbotron -->
+                    </div>
 
-              </div><!-- row -->
+                    <div id="updated">
+
+                      <!-- Time sensor values last updated -->
+
+                    </div>
+
+                  </div><!-- col -->
+
+                  <div class="col-xs-3">
+
+                    <div class="row" style="margin: auto;">
+
+                      <img src="img/speed.png" />
+
+                    </div><!-- row -->
+
+                    <div class="row" id="windSpeed" style="margin: auto;">
+
+                      <!-- Wind Speed -->
+
+                    </div><!-- row -->
+
+                  </div><!-- col -->
+
+                </div><!-- row -->
+
+              </div><!-- jumbotron -->
 
             </div><!-- col -->
 
-            <div class="col-xs-6 col-sm-4">
+            <div class="col-xs-12 col-sm-4">
+
+              <!-- Switches -->
 
               <div class="jumbotron">
 
                 <div class="row">
 
-                  <div class="col-xs-12 col-sm-6">
+                  <div class="col-sm-6 col-xs-10">
 
                     <label class="switch">
 
@@ -173,7 +215,7 @@
 
                   </div>
 
-                  <div class="col-xs-12 col-sm-6">
+                  <div class="col-sm-6 col-xs-10">
 
                     <label class="switch">
 
@@ -187,7 +229,7 @@
 
                   </div>
 
-                  <div class="col-xs-12 col-sm-6">
+                  <div class="col-xs-10 col-sm-6">
 
                     <label class="switch">
 
@@ -201,7 +243,7 @@
 
                   </div>
 
-                  <div class="col-xs-12 col-sm-6">
+                  <div class="col-xs-10 col-sm-6">
 
                     <label class="switch">
 
@@ -215,77 +257,65 @@
 
                   </div>
 
-                  <div class="col-xs-12 col-sm-6">
-
-                    <label class="switch">
-
-                      <input type="checkbox" class="checkbox_check toggle" id="5">
-
-                      <span class="slider round"></span>
-
-                    </label>
-
-                    <p>Utility LEDs</p>
-
-                  </div>
-
-                  <div class="col-xs-12 col-sm-6">
-
-                    <label class="switch">
-
-                      <input type="checkbox" class="checkbox_check toggle" id="6">
-
-                      <span class="slider round"></span>
-
-                    </label>
-
-                    <p>Outdoor LEDs</p>
-
-                  </div>
-
                 </div><!-- row -->
 
               </div><!-- Jumbotron -->
 
             </div><!-- col -->
 
-            <div class="col-xs-6 col-sm-4">
+            <div class="col-xs-12 col-sm-4">
 
-              <div class="row">
-
-                <div class="jumbotron">
-
-                  <div id="clock"></div>
-
-                </div><!-- jumbotron -->
-
-              </div><!-- row -->
-
-              <div class="row">
-
-                <div class="jumbotron">
-
-                  <div id="sunTimes"></div>
-
-                </div><!-- jumbotron -->
-
-              </div><!-- row -->
-
-            </div><!-- col -->
-
-          </div><!-- row -->
-
-          <div class="row">
-
-            <div class="col-xs-12 col-sm-12">
+              <!-- Clock/Date & Sunrise/Sunset Times -->
 
               <div class="jumbotron">
 
-                <h2>Temperatures</h2>
+                <div class="row">
 
-                <div id="chartbox" class="ct-chart">
+                  <div class="col-sm-12" id="clock">
 
-                </div>
+                    <!-- Time -->
+
+                  </div><!-- col -->
+
+                </div><!-- row -->
+
+                <div class="row">
+
+                  <div class="col-sm-12" id="date">
+
+                    <!-- Date -->
+
+                  </div><!-- col -->
+
+                </div><!-- row -->
+
+                <div class="row">
+
+                  <div class="col-sm-2">
+
+                    <img src="img/sunrise-hour.png" style="margin-top: 0px;" />
+
+                  </div><!-- col -->
+
+                  <div class="col-sm-4" id="sunrise">
+
+                    <!-- Sunrise Time -->
+
+                  </div><!-- col -->
+
+                  <div class="col-sm-2">
+
+                    <img src="img/sunset.png" style="margin-top: 0px;" />
+
+                  </div><!-- col -->
+
+                  <div class="col-sm-4" id="sunset">
+
+                    <!-- Sunset Time -->
+
+                  </div><!-- col -->
+
+                </div><!-- row -->
 
               </div><!-- jumbotron -->
 
@@ -293,157 +323,233 @@
 
           </div><!-- row -->
 
-          <div class="jumbotron">
+          <!-- Second Row -->
 
-            <div class="row">
+          <div class="row">
 
-              <h2>Lights</h2>
+            <div class="col-sm-4">
 
-              <div class="col-xs-12 col-sm-4">
+              <!-- Read Only Toggle Switches -->
 
-                <h3>Colours</h3>
-
-                <div class="row">
-
-                  <div id="colour" class="col-xs-12">
-
-                    <p>Outdoor LEDs</p>
-
-                    <input class="btn jscolor picker" id="16" value="ab2567">
-
-                  </div>
-
-                </div>
+              <div class="jumbotron">
 
                 <div class="row">
 
-                  <div id="colour" class="col-xs-12">
-
-                    <p>Utility LEDs</p>
-
-                    <input class="btn jscolor picker" id="17" value="ab2567">
-
-                  </div>
-
-                </div>
-
-              </div><!-- col -->
-
-              <div class="col-xs-12 col-sm-4">
-
-                <h3>Effects</h3>
-
-                <div class="row">
-
-                  <div class="col-xs-12 col-sm-6">
+                  <div class="col-xs-10 col-sm-6">
 
                     <label class="switch">
 
-                      <input type="checkbox" class="checkbox_check toggle" id="7">
+                      <input type="checkbox" class="checkbox_check toggle" id="20">
 
                       <span class="slider round"></span>
 
                     </label>
 
-                    <p>Candy Cane</p>
+                    <p>Motion Sensor</p>
 
-                  </div>
+                  </div><!-- col -->
 
-                  <div class="col-xs-12 col-sm-6">
+                  <div class="col-xs-10 col-sm-6">
 
-                    <label class="switch">
-
-                      <input type="checkbox" class="checkbox_check toggle" id="8">
-
-                      <span class="slider round"></span>
-
-                    </label>
-
-                    <p>Random White</p>
-
-                  </div>
-
-                  <div class="col-xs-12 col-sm-6">
-
-                    <label class="switch">
-
-                      <input type="checkbox" class="checkbox_check toggle" id="9">
-
-                      <span class="slider round"></span>
-
-                    </label>
-
-                    <p>Random Colour</p>
-
-                  </div>
-
-                  <div class="col-xs-12 col-sm-6">
-
-                    <label class="switch">
-
-                      <input type="checkbox" class="checkbox_check toggle" id="10">
-
-                      <span class="slider round"></span>
-
-                    </label>
-
-                    <p>Rainbow Stripe</p>
-
-                  </div>
-
-                  <div class="col-xs-12 col-sm-6">
-
-                    <label class="switch">
-
-                      <input type="checkbox" class="checkbox_check toggle" id="11">
-
-                      <span class="slider round"></span>
-
-                    </label>
-
-                    <p>Rainbow Cycle</p>
-
-                  </div>
+                  </div><!-- col -->
 
                 </div><!-- row -->
 
-              </div><!-- col -->
+                <div class="row">
 
-              <div class="col-xs-12 col-sm-4">
+                  <div class="col-xs-10 col-sm-6">
 
-                <h3>Dimmers</h3>
+                    <label class="switch">
 
-                <div class="col-xs-12 col-sm-6">
+                      <input type="checkbox" class="checkbox_check toggle" id="21">
 
-                  <p>Outdoor LEDs</p>
+                      <span class="slider round"></span>
 
-                  <div class="row">
+                    </label>
 
-                    <div style="height:200px; width: 50%;" class="col-xs-6 slider-vertical" id="12"></div>
+                    <p>Front Door</p>
 
-                    <div class="col-xs-6" id="13"></div>
+                  </div><!-- col -->
 
-                  </div><!-- row -->
+                  <div class="col-xs-10 col-sm-6">
 
-                </div><!-- col -->
+                    <label class="switch">
 
-                <div class="col-xs-12 col-sm-6">
+                      <input type="checkbox" class="checkbox_check toggle" id="22">
 
-                  <p>Utility LEDs</p>
+                      <span class="slider round"></span>
 
-                  <div class="row">
+                    </label>
 
-                    <di style="height:200px; width: 50%;" class="col-xs-6 slider-vertical" id="14"></div>
+                    <p>Garage Door</p>
 
-                    <div class="col-xs-6" id="15"></div>
+                  </div><!-- col -->
 
-                  </div>
+                </div><!-- row -->
 
-                </div>
+              </div><!-- jumbotron -->
 
-              </div><!-- col -->
+            </div><!-- col -->
 
-            </div><!-- jumbotron -->
+            <div class="col-sm-8">
+
+              <!-- Light Settings -->
+
+              <div id="" class="jumbotron">
+
+                <div class="row">
+
+                  <div class="col-sm-4">
+
+                    <!-- Colour Pickers -->
+
+                    <div class="row">
+
+                      <div id="colour" class="col-xs-10 col-sm-12">
+
+                        <p>Outdoor LEDs</p>
+
+                        <input class="btn jscolor picker" id="16" value="2196F3">
+
+                      </div>
+
+                    </div><!-- row -->
+
+                    <div class="row">
+
+                      <div id="colour" class="col-xs-10 col-sm-12">
+
+                        <p>Utility LEDs</p>
+
+                        <input class="btn jscolor picker" id="17" value="2196F3">
+
+                      </div>
+
+                    </div><!-- row -->
+
+                  </div><!-- col -->
+
+                  <div class="col-sm-5">
+
+                    <!-- Effect Switches -->
+
+                    <div class="row">
+
+                      <div class="col-xs-10 col-sm-6">
+
+                        <label class="switch">
+
+                          <input type="checkbox" class="checkbox_check toggle" id="7">
+
+                          <span class="slider round"></span>
+
+                        </label>
+
+                        <p>Candy Cane</p>
+
+                      </div>
+
+                      <div class="col-xs-10 col-sm-6">
+
+                        <label class="switch">
+
+                          <input type="checkbox" class="checkbox_check toggle" id="8">
+
+                          <span class="slider round"></span>
+
+                        </label>
+
+                        <p>Random White</p>
+
+                      </div>
+
+                    </div><!-- row -->
+
+                    <div class="row">
+
+                      <div class="col-xs-10 col-sm-6">
+
+                        <label class="switch">
+
+                          <input type="checkbox" class="checkbox_check toggle" id="9">
+
+                          <span class="slider round"></span>
+
+                        </label>
+
+                        <p>Random Colour</p>
+
+                      </div>
+
+                      <div class="col-xs-10 col-sm-6">
+
+                        <label class="switch">
+
+                          <input type="checkbox" class="checkbox_check toggle" id="10">
+
+                          <span class="slider round"></span>
+
+                        </label>
+
+                        <p>Rainbow Stripe</p>
+
+                      </div>
+
+                    </div><!-- row -->
+
+                  </div><!-- col -->
+
+                  <!-- Dimmers -->
+
+                  <div class="col-sm-3" id="dimmers">
+
+                    <div class="row">
+
+                      <div class="col-xs-10 col-sm-6">
+
+                        <p>Outdoor LEDs</p>
+
+                        <div class="row">
+
+                          <div style="height:75px; width: 50%; margin-left: 13px;" class="col-xs-6 slider-vertical" id="12">
+
+                          </div>
+
+                          <div class="col-xs-6" id="13">
+
+                          </div>
+
+                        </div><!-- row -->
+
+                      </div><!-- col -->
+
+                      <div class="col-xs-10 col-sm-6">
+
+                        <p style="margin-left: -13px;">Utility </br>LEDs</p>
+
+                        <div class="row">
+
+                          <div style="height:75px; width: 50%;" class="col-xs-6 slider-vertical" id="14">
+
+                          </div>
+
+                          <div class="col-xs-6" id="15">
+
+                          </div><!-- col -->
+
+                        </div><!-- row -->
+
+                      </div><!-- col -->
+
+                    </div><!-- row -->
+
+                  </div><!-- col -->
+
+                </div><!-- row -->
+
+              </div><!-- jumbotron -->
+
+            </div><!-- col -->
 
           </div><!-- row -->
 

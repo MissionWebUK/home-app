@@ -16,6 +16,16 @@
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- JQuery UI -->
+
+    <link href="css/jquery-ui.min.css" rel="stylesheet">
+
+    <!-- Chartist -->
+
+    <link rel="stylesheet" href="css/chartist.min.css">
+
+    <!-- Custom Styles -->
+
     <link rel="stylesheet" type="text/css" media="all" href="css/style.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -28,6 +38,8 @@
   </head>
 
   <body onload="startTime()">
+
+    <!-- Top Navbar -->
 
     <nav class="navbar navbar-inverse navbar-fixed-top">
 
@@ -69,6 +81,8 @@
 
     </nav><!-- navbar -->
 
+    <!-- Sidebar -->
+
     <div class="container-fluid">
 
       <div class="row">
@@ -77,51 +91,113 @@
 
           <ul class="nav nav-sidebar">
 
-            <li><a href="#">Sensors</a></li>
+            <li class="active"><a href="rooms.html"><img src="img/opened-door-aperture.png" /></a></li>
 
-            <li><a href="data.html">Data</a></li>
+            <li><a href="sensors.html"><img src="img/exposure.png" /></a></li>
 
-            <li><a href="#">Cameras</a></li>
+            <li><a href="cctv.html"><img src="img/cctv.png" /></a></li>
 
-            <li><a href="#">Entertainment</a></li>
+            <li><a href="data.html"><img src="img/line-chart.png" /></a></li>
 
-            <li><a href="#">Scenes</a></li>
+            <li><a href="entertainment.html"><img src="img/speaker.png" /></a></li>
+
+            <li><a href="scenes.html"><img src="img/picture.png" /></a></li>
 
           </ul>
 
         </div><!-- sidebar -->
 
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <!-- Main Content -->
 
-          <h1 class ="page-header">Settings</h1>
+        <div class="col-sm-12 col-md-10 col-md-offset-2 main">
+
+          <h1 class ="page-header">Rooms</h1>
+
+          <!-- First Row -->
 
           <div class="row">
 
-            <h2>Location</h2>
+            <div class="col-sm-4">
 
-            <form>
+              <a href="index.html">
 
-              <div class="form-group">
+                <div id="utility" class="jumbotron room">
 
-                <input type="text" class="form-control" id="longitude" placeholder="Longitude">
+                  <h3>Utility</h3>
+
+                </div>
+
+              </a>
+
+            </div><!-- col -->
+
+            <div class="col-sm-4">
+
+              <div id="shower" class="jumbotron room">
+
+                <h3>Shower</h3>
 
               </div>
 
-              <div class="form-group">
+            </div><!-- col -->
 
-                <input type="text" class="form-control" id="latitude" placeholder="Latitude">
+            <div class="col-sm-4">
+
+              <div id="hall" class="jumbotron room">
+
+                <h3>Hallway</h3>
 
               </div>
 
-              <button class="btn btn-default pull-right" type="submit">Update</button>
+            </div><!-- col -->
 
-            </form>
+          </div><!-- row -->
+
+          <!-- Second row -->
+
+          <div class="row">
+
+            <div class="col-sm-4">
+
+              <div id="office" class="jumbotron room">
+
+                <h3>Office</h3>
+
+              </div>
+
+            </div><!-- col -->
+
+            <div class="col-sm-4">
+
+              <div id="kitchen" class="jumbotron room">
+
+                <h3>Kitchen</h3>
+
+              </div>
+
+            </div><!-- col -->
+
+            <div class="col-sm-4">
+
+              <div id="living" class="jumbotron room">
+
+                <h3>Living</h3>
+
+              </div>
+
+            </div><!-- col -->
 
           </div><!-- row -->
 
         </div><!-- col -->
 
       </div><!-- row -->
+
+      <footer>
+
+        <p>Sanders Smart Home</p>
+
+      </footer>
 
     </div><!-- container -->
 
@@ -133,9 +209,17 @@
 
     <script src="js/bootstrap.min.js"></script>
 
+    <script src="js/jquery-ui.min.js"></script>
+
+    <script src="js/moment.js"></script>
+
+    <script src="js/chartist.min.js"></script>
+
+    <script src="js/jscolor.min.js"></script>
+
     <script src="/socket.io/socket.io.js"></script>
 
-      <script src="js/main.js"></script>
+    <script src="js/main.js"></script>
 
   </body>
 

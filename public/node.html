@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>My Home</title>
+
+    <!-- Bootstrap -->
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- JQuery UI -->
+
+    <link href="css/jquery-ui.min.css" rel="stylesheet">
+
+    <!-- Chartist -->
+
+    <link rel="stylesheet" href="css/chartist.min.css">
+
+    <!-- Custom Styles -->
+
+    <link rel="stylesheet" type="text/css" media="all" href="css/style.css">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+  </head>
+
+  <body onload="startTime()">
+
+    <!-- Top Navbar -->
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+
+      <div class="container-fluid">
+
+        <div class="navbar-header">
+
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+
+            <span class="sr-only">Toggle navigation</span>
+
+            <span class="icon-bar"></span>
+
+            <span class="icon-bar"></span>
+
+            <span class="icon-bar"></span>
+
+          </button>
+
+          <a class="navbar-brand" href="index.html">My Home</a>
+
+        </div><!-- navbar-header -->
+
+        <div id="navbar" class="navbar-collapse collapse">
+
+          <ul class="nav navbar-nav navbar-right">
+
+            <li><a href="#"><span class="glyphicon glyphicon-signal" aria-hidden="true"></span></a></li>
+
+            <li><a href="#"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span></a></li>
+
+            <li><a href="settings.html"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li>
+
+          </ul>
+
+        </div><!-- navbar -->
+
+      </div><!-- container -->
+
+    </nav><!-- navbar -->
+
+    <!-- Sidebar -->
+
+    <div class="container-fluid">
+
+      <div class="row">
+
+        <div class="col-sm-3 col-md-2 sidebar">
+
+          <ul class="nav nav-sidebar">
+
+            <li><a href="rooms.html"><img src="img/opened-door-aperture.png" /></a></li>
+
+            <li><a href="sensors.html"><img src="img/exposure.png" /></a></li>
+
+            <li><a href="cctv.html"><img src="img/cctv.png" /></a></li>
+
+            <li><a href="data.html"><img src="img/line-chart.png" /></a></li>
+
+            <li><a href="entertainment.html"><img src="img/speaker.png" /></a></li>
+
+            <li><a href="scenes.html"><img src="img/picture.png" /></a></li>
+
+          </ul>
+
+        </div><!-- sidebar -->
+
+        <!-- Main Content -->
+
+        <div class="col-sm-12 col-md-10 col-md-offset-2 main">
+
+          <h1 class ="page-header">Node</h1>
+
+          <!-- First Row -->
+
+          <div class="row">
+
+            <div class="col-sm-6">
+
+              <div class="jumbotron">
+
+                <h3>Shower Room Humidity Node</h3>
+
+                <form>
+
+                  <div class="row">
+
+                    <div class="col-sm-6">
+
+                      <label>ID</label>
+
+                    </div><!-- col -->
+
+                    <div class="col-sm-6">
+
+                      <input type="text" value="6" disabled/>
+
+                    </div><!-- col -->
+
+                  </div><!-- row -->
+
+                  <div class="row">
+
+                    <div class="col-sm-6">
+
+                      <label>MySensors Version</label>
+
+                    </div><!-- col -->
+
+                    <div class="col-sm-6">
+
+                      <input type="text" value="2.1.1" disabled/>
+
+                    </div><!-- col -->
+
+                  </div><!-- row -->
+
+                  <div class="row">
+
+                    <div class="col-sm-6">
+
+                      <label>Sketch Name</label>
+
+                    </div><!-- col -->
+
+                    <div class="col-sm-6">
+
+                      <input type="text" value="Utility Room Humidity Node" disabled/>
+
+                    </div><!-- col -->
+
+                  </div><!-- row -->
+
+                  <div class="row">
+
+                    <div class="col-sm-6">
+
+                      <label>Sketch Version</label>
+
+                    </div><!-- col -->
+
+                    <div class="col-sm-6">
+
+                      <input type="text" value="Utility Room Humidity Node" disabled/>
+
+                    </div><!-- col -->
+
+                  </div><!-- row -->
+
+                  <div class="row">
+
+                    <div class="col-sm-6">
+
+                      <label>Sensors</label>
+
+                    </div><!-- col -->
+
+                    <div class="col-sm-6">
+
+                      <input type="text" value="5" disabled/>
+
+                    </div><!-- col -->
+
+                  </div><!-- row -->
+
+                </form><!-- form -->
+
+              </div><!-- jumbotron -->
+
+            </div><!-- col -->
+
+            <div class="col-sm-6">
+
+              <div class="jumbotron">
+
+                <h3>Current Status</h3>
+
+                <h3>Last Updated: 5:01pm Today</h3>
+
+              </div><!-- jumbotron -->
+
+            </div><!-- col -->
+
+          </div><!-- row -->
+
+          <!-- Second Row -->
+
+          <div class="row">
+
+            <div class="col-sm-6">
+
+              <div class="jumbotron">
+
+                <h3>Sensors</h3>
+
+                <table>
+
+                  <tr>
+
+                    <th>Sensor</th>
+
+                    <th>Current Value</th>
+
+                  </tr>
+
+                  <tr>
+
+                    <td>Temperature</td>
+
+                    <td>21</td>
+
+                  </tr>
+
+                  <tr>
+
+                    <td>Humidity</td>
+
+                    <td>65</td>
+
+                  </tr>
+
+                  <tr>
+
+                    <td>Pressure</td>
+
+                    <td>1000</td>
+
+                  </tr>
+
+                  <tr>
+
+                    <td>Board Temperature</td>
+
+                    <td>23</td>
+
+                  </tr>
+
+                  <tr>
+
+                    <td>Extractor Fan</td>
+
+                    <td>On</td>
+
+                  </tr>
+
+                </table>
+
+              </div><!-- jumbotron -->
+
+            </div><!-- col -->
+
+            <div class="col-sm-6">
+
+              <div class="jumbotron">
+
+                <h3>Battery Levels</h3>
+
+              </div><!-- jumbotron -->
+
+            </div><!-- col -->
+
+          </div><!-- row -->
+
+        </div><!-- col -->
+
+      </div><!-- row -->
+
+      <footer>
+
+        <p>Sanders Smart Home</p>
+
+      </footer>
+
+    </div><!-- container -->
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+
+    <script src="js/bootstrap.min.js"></script>
+
+    <script src="js/jquery-ui.min.js"></script>
+
+    <script src="js/moment.js"></script>
+
+    <script src="js/chartist.min.js"></script>
+
+    <script src="js/jscolor.min.js"></script>
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script src="js/main.js"></script>
+
+  </body>
+
+</html>

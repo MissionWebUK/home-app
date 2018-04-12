@@ -1,7 +1,8 @@
 require('../config/config');
 
-const request = require("request");
+const request = require('request');
 const moment = require('moment');
+const fs = require('fs');
 
 const {mongoose} = require('../db/mongoose');
 
@@ -34,13 +35,24 @@ var sunUpdate = () => {
 
         if (err) {
 
-          console.log("Error writing sunrise/sunset to database");
+          var today = new Date();
+          var time = moment(today).format('h:mm:ss a');
+          var date = moment(today).format('MMMM Do YYYY');
+
+          fs.appendFileSync('../app.log', date + " " + time + " ");
+
+          fs.appendFileSync('../app.log', "Error writing sunrise/sunset to database\n" + err + "\n");
 
         }
+
+        result = null;
+        json = null;
 
       });
 
     });
+
+    doc = null;
 
   }, (e) => {
 
@@ -65,11 +77,23 @@ function requestJSON(lat, lng, callback) {
 
   request(options, function (error, response, body) {
 
-    if (error) throw new Error(error);
+    if (error) {
+
+      var today = new Date();
+      var time = moment(today).format('h:mm:ss a');
+      var date = moment(today).format('MMMM Do YYYY');
+
+      fs.appendFileSync('../app.log', date + " " + time + " ");
+
+      fs.appendFileSync('../app.log', "Error retrieving sunrise/sunset times\n" + error + "\n");
+
+    }
 
     var json = JSON.parse(body);
 
     callback(json);
+
+    json = null;
 
   });
 

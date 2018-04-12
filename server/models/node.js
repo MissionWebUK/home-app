@@ -20,11 +20,18 @@ var sensorSchema = new Schema ({
 
   id: {
 
-    type: Number
+    type: Number,
+    index: true
 
   },
 
   type: {
+
+    type: String
+
+  },
+
+  name: {
 
     type: String
 
@@ -53,9 +60,21 @@ var sensorSchema = new Schema ({
 
   },
 
+  valueHtmlId: {
+
+
+
+  },
+
+  graphHtmlId: {
+
+
+
+  },
+
   roToggleHtmlId: {
 
-    
+
   },
 
   values: [valueSchema]
@@ -81,11 +100,47 @@ var SensorNode = mongoose.model('SensorNode', {
   id: {
 
     type: Number,
-    required: true
+    required: true,
+    index: true
 
   },
 
   protocol: {
+
+  },
+
+  name: {
+
+    type: String
+
+  },
+
+  description: {
+
+    type: String
+
+  },
+
+  sketchName: {
+
+    type: String
+
+  },
+
+  sketchVersion: {
+
+
+  },
+
+  lastHeartbeat: {
+
+    type: Date
+
+  },
+
+  currentBattLevel: {
+
+
 
   },
 
