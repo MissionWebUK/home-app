@@ -27,6 +27,7 @@ $(function(){
       if ($(id).is(':checked')) {
 
         socket.emit('saveValue', {
+          topic: topic,
           value: 1,
           destination: $(id).data().dest,
           sensor: $(id).data().sensor,
@@ -35,6 +36,7 @@ $(function(){
       } else {
 
         socket.emit('saveValue', {
+          topic: topic,
           value: 0,
           destination: $(id).data().dest,
           sensor: $(id).data().sensor,
@@ -47,45 +49,25 @@ $(function(){
 
 // Slider Function
 
-$(function() {
+if($('.js-check-change').length) {
 
-  $( ".slider-vertical" ).slider({
-    orientation: "vertical",
-    range: "min",
-    min: 0,
-    max: 100,
-    value: 60,
-    slide: function( event, ui ) {
+  var changeInput = document.querySelector('.js-check-change');
 
-      var id = "#" + event.target.parentElement.id;
-      var textId = "#" + (event.target.parentElement.id+1);
-
-      $(textId).val( ui.value );
-
-    }
-
-  }).mouseup(function(event) {
-
-    var id = "#" + event.target.parentElement.id;
-    var percent = $(id).slider( "value" );
-
+  changeInput.onchange = function(event) {
+    var id = "#" + event.target.id;
+    var percent = changeInput.value;
     if ($(id).data().dest) {
-
       socket.emit('saveValue', {
+        topic: topic,
         value: percent,
         destination: $(id).data().dest,
         sensor: $(id).data().sensor,
         type: 3
       })
     }
+  };
 
-    var percentHtml = "<p>"+percent+"&#37;</p>";
-    var textId = "#" + (event.target.parentElement.id+1);
-
-    $(textId).html(percentHtml);
-
-  });
-});
+}
 
 // Colour Picker Function
 
@@ -100,6 +82,30 @@ $(function() {
       var colour = $(id).val();
 
       socket.emit('saveValue', {
+        topic: topic,
+        value: colour,
+        destination: $(id).data().dest,
+        sensor: $(id).data().sensor,
+        type: 40
+      })
+    }
+  });
+});
+
+// Button Function
+
+$(function() {
+
+  $(".button").click(function(event) {
+
+    var id = "#" + event.target.id;
+
+    if ($(id).data().dest) {
+
+      var colour = $(id).val();
+
+      socket.emit('saveValue', {
+        topic: topic,
         value: colour,
         destination: $(id).data().dest,
         sensor: $(id).data().sensor,
@@ -133,6 +139,8 @@ socket.on('connect', function () {
   // Request Settings from the Server
 
   socket.emit('settings', {}, function (settings) {
+
+    var dashboards = settings.settings.dashboards.sort(function(a, b){return a.id - b.id});
 
     if (settings.settings) {
 
@@ -200,6 +208,8 @@ socket.on('connect', function () {
 
       if($('#table').length) {
 
+        console.log('Build Table!');
+
         var tableHtml = '<table class="table table-condensed table-hover">'+
                           '<tr>'+
                             '<th>Node</th>'+
@@ -252,15 +262,15 @@ socket.on('connect', function () {
 
       // Run through each of the dashboard sections
 
-      var numSections = settings.settings.dashboards[0].section.length;
+      var numSections = dashboards[dashboard].section.length;
 
       for (var i = 0; i<numSections; i++) {
 
-        var id = settings.settings.dashboards[0].section[i].id;
+        var id = dashboards[dashboard].section[i].id;
 
         // If Read Only disable
 
-        var readOnly = settings.settings.dashboards[0].section[i].readOnly;
+        var readOnly = dashboards[dashboard].section[i].readOnly;
 
         if (readOnly == true) {
 
@@ -270,15 +280,15 @@ socket.on('connect', function () {
 
         }
 
-        if (settings.settings.dashboards[0].section[i].destination) {
+        if (dashboards[dashboard].section[i].destination) {
 
           // If it's a toggle switch update the value and display
 
-          if (settings.settings.dashboards[0].section[i].type == 'toggle' || settings.settings.dashboards[0].section[i].type == 'toggleRO') {
+          if (dashboards[dashboard].section[i].type == 'toggle' || dashboards[dashboard].section[i].type == 'toggleRO') {
 
             var htmlId = "#" + id;
-            var destination = settings.settings.dashboards[0].section[i].destination;
-            var sensor = settings.settings.dashboards[0].section[i].sensor;
+            var destination = dashboards[dashboard].section[i].destination;
+            var sensor = dashboards[dashboard].section[i].sensor;
 
             if ($(htmlId).length) {
 
@@ -287,10 +297,10 @@ socket.on('connect', function () {
                 sensor: sensor
               }, function (value) {
 
-                if (value.roToggleHtmlId != 0) {
+                if (value.htmlId != 0) {
 
                   var checked = value.currentValue;
-                  var htmlId = "#" + value.roToggleHtmlId;
+                  var htmlId = "#" + value.htmlId;
 
                   if (checked == 1) {
                     $(htmlId).prop('checked', true);
@@ -304,14 +314,14 @@ socket.on('connect', function () {
           }
         }
 
-        if (settings.settings.dashboards[0].section[i].destination) {
+        if (dashboards[dashboard].section[i].destination) {
 
           // Add data attributes to html ids
 
           var htmlId = "#" + id;
-          var destination = settings.settings.dashboards[0].section[i].destination;
-          var sensor = settings.settings.dashboards[0].section[i].sensor;
-          var type = settings.settings.dashboards[0].section[i].type;
+          var destination = dashboards[dashboard].section[i].destination;
+          var sensor = dashboards[dashboard].section[i].sensor;
+          var type = dashboards[dashboard].section[i].type;
 
           $(htmlId).data("dest", destination);
           $(htmlId).data("sensor", sensor);
@@ -327,11 +337,11 @@ socket.on('connect', function () {
                 sensor: sensor
               }, function (value) {
 
-                if (value.valueHtmlId != 0) {
+                if (value.htmlId != 0 && value.type != 4) {
 
                   var currentValue = value.currentValue;
                   var updated = moment(value.valueUpdated).format('h:mm a');
-                  var id = value.valueHtmlId;
+                  var id = value.htmlId;
                   var htmlId = "#" + id;
                   var html;
 
@@ -339,6 +349,15 @@ socket.on('connect', function () {
                     html = '<h2>'+currentValue+'&deg; C</h2>';
                   } else if (value.type == 7) {
                     html = '<p style="font-size: 18px;">'+currentValue+'&#37; Humidity</p>';
+
+                  }
+                  } else if (value.type == 13) {
+
+                    var kw = currentValue / 1000;
+
+                    var roundedKw = parseFloat(Math.round(kw * 100) / 100).toFixed(2);
+
+                    html = '<h3>'+roundedKw+'kw</h3>';
                   }
 
                   var updatedHtml = '<p style="font-size: 15px;"><strong>Updated: </strong> '+updated
@@ -346,7 +365,6 @@ socket.on('connect', function () {
                   $(htmlId).html(html);
                   $('#updated').html(updatedHtml);
 
-                }
               });
             }
           }
@@ -355,7 +373,7 @@ socket.on('connect', function () {
 
           else if (type == "colour") {
 
-            if ($(htmlId).length) {
+            if ($(htmlId).length && $(htmlId).hasClass("picker")) {
 
               socket.emit('value', {
                 destination: destination,
@@ -363,7 +381,7 @@ socket.on('connect', function () {
               }, function (value) {
 
                 var currentValue = value.currentValue;
-                var id = value.valueHtmlId;
+                var id = value.htmlId;
                 var htmlId = "#" + id;
                 var hex = "#" + currentValue;
                 var style = "background-image: none; background-color:" + hex + "; color: rgb(0, 0, 0);";
@@ -375,99 +393,112 @@ socket.on('connect', function () {
             }
           }
 
+        } else if (dashboards[dashboard].section[i].multiSensor.length){
+
           // Or if its a graph section, display the graph
 
-          else if (type == "graph") {
+          var htmlId = "#" + id;
+          var destination = dashboards[dashboard].section[i].destination;
+          var sensor = dashboards[dashboard].section[i].sensor;
+          var type = dashboards[dashboard].section[i].type;
+
+          if (type == "graph") {
 
             var htmlId = "#" + id;
 
             if ($(htmlId).length) {
 
-              if (settings.settings.dashboards[0].section[i].destination) {
+              var sensors = [];
+              var sensorLength = dashboards[dashboard].section[i].multiSensor.length;
 
-                var sensors = [];
-                var sensorLength = settings.settings.dashboards[0].section[i].multiSensor.length;
 
-                for (var j = 0; j<sensorLength; j++) {
 
-                  var sensorDetail = {
-                    destination: settings.settings.dashboards[0].section[i].multiSensor[j].destination,
-                    sensor: settings.settings.dashboards[0].section[i].multiSensor[j].sensor
-                  }
+              for (var j = 0; j<sensorLength; j++) {
 
-                  sensors.push(sensorDetail);
-
+                var sensorDetail = {
+                  destination: dashboards[dashboard].section[i].multiSensor[j].destination,
+                  sensor: dashboards[dashboard].section[i].multiSensor[j].sensor
                 }
 
-                socket.emit('graph', {
-                  sensors: sensors
-                }, function (values) {
 
-                  if (values[0]) {
 
-                    var series = [];
+                sensors.push(sensorDetail);
 
-                    if (values[0].values != null) {
-                      var htmlId = '.chart'+values[0].graphHtmlId;
-                    }
+              }
 
-                    for (var i = 0; i<values.length; i++) {
+              socket.emit('graph', {
+                sensors: sensors
+              }, function (values) {
 
-                      var data = [];
+                if (values[0]) {
 
-                      if (values[i].values != null) {
+                  var series = [];
 
-                        var numValues = values[i].values.length;
+                  if (values[0].values != null) {
+                    var htmlId = '.chart'+values[0].graphHtmlId;
+                  }
 
-                        if (numValues > 0) {
+                  for (var i = 0; i<values.length; i++) {
 
-                          var timePlus = moment(values[i].values[0].timestamp).add(10, 'minutes');
+                    var data = [];
 
-                          for(var g=0; g<numValues; g++){
+                    if (values[i].values != null) {
 
-                            var timeFor = moment(values[i].values[g].timestamp);
-                            var time = values[i].values[g].timestamp;
-                            var value = values[i].values[g].value;
+                      var numValues = values[i].values.length;
 
-                            if (timeFor > timePlus || data.length == 0) {
-                              data.push({x: new Date(time), y: value});
-                              timePlus = moment(values[i].values[g].timestamp).add(10, 'minutes');
-                            }
+                      if (numValues > 0) {
+
+                        var timePlus = moment(values[i].values[0].timestamp).add(10, 'minutes');
+
+                        for(var g=0; g<numValues; g++){
+
+                          var timeFor = moment(values[i].values[g].timestamp);
+                          var time = values[i].values[g].timestamp;
+                          var value = values[i].values[g].value;
+
+                          if (timeFor > timePlus || data.length == 0) {
+                            data.push({x: new Date(time), y: value});
+                            timePlus = moment(values[i].values[g].timestamp).add(10, 'minutes');
                           }
                         }
                       }
-
-                      series.push(data);
-
                     }
 
-                    var searchData = {
-                      series: series
-                    };
+                    series.push(data);
 
-                    var options = {
-                      axisX: {
-                            type: Chartist.FixedScaleAxis,
-                            name: 'Time',
-                            divisor: 10,
-                            labelInterpolationFnc: function(value) {
-                              return moment(value).format('ddd h:mm a');
-                            }
-                          },
-                          showArea: true,
-                          showPoint: false
-                    }
-
-                    new Chartist.Line(htmlId, searchData, options);
-
-                  } else {
-                    console.log(values);
                   }
-                });
-              }
+
+                  var searchData = {
+                    series: series
+                  };
+
+                  var options = {
+                    axisX: {
+                          type: Chartist.FixedScaleAxis,
+                          name: 'Time',
+                          divisor: 3,
+                          labelInterpolationFnc: function(value) {
+                            return moment(value).format('h:mm a');
+                          }
+                        },
+                        showArea: true,
+                        showPoint: false,
+                        width: '90%',
+                        height: '90px'
+                  }
+
+                  new Chartist.Line(htmlId, searchData, options);
+
+                } else {
+                  console.log(values);
+                }
+              });
+
             }
           }
+
         }
+
       }
 
       // Refresh these functions every 5 mins
@@ -597,23 +628,20 @@ socket.on('connect', function () {
 
         // Run through each of the dashboard sections
 
-        var numSections = settings.settings.dashboards[0].section.length;
+        var numSections = dashboards[dashboard].section.length;
 
         for (var i = 0; i<numSections; i++) {
 
-          var id = settings.settings.dashboards[0].section[i].id;
+          var id = dashboards[dashboard].section[i].id;
 
-          if (settings.settings.dashboards[0].section[i].destination) {
+          if (dashboards[dashboard].section[i].destination) {
 
             // Add data attributes to html ids
 
             var htmlId = "#" + id;
-            var destination = settings.settings.dashboards[0].section[i].destination;
-            var sensor = settings.settings.dashboards[0].section[i].sensor;
-            var type = settings.settings.dashboards[0].section[i].type;
-
-            // $(htmlId).data("dest", destination);
-            // $(htmlId).data("sensor", sensor);
+            var destination = dashboards[dashboard].section[i].destination;
+            var sensor = dashboards[dashboard].section[i].sensor;
+            var type = dashboards[dashboard].section[i].type;
 
             // If its a value section, display the following
 
@@ -626,11 +654,11 @@ socket.on('connect', function () {
                   sensor: sensor
                 }, function (value) {
 
-                  if (value.valueHtmlId != 0) {
+                  if (value.htmlId != 0 && value.type != 4) {
 
                     var currentValue = value.currentValue;
                     var updated = moment(value.valueUpdated).format('h:mm a');
-                    var id = value.valueHtmlId;
+                    var id = value.htmlId;
                     var htmlId = "#" + id;
                     var html;
 
@@ -650,99 +678,112 @@ socket.on('connect', function () {
               }
             }
 
+          } else if (dashboards[dashboard].section[i].multiSensor.length){
+
             // Or if its a graph section, display the graph
 
-            else if (type == "graph") {
+            var htmlId = "#" + id;
+            var destination = dashboards[dashboard].section[i].destination;
+            var sensor = dashboards[dashboard].section[i].sensor;
+            var type = dashboards[dashboard].section[i].type;
+
+            if (type == "graph") {
 
               var htmlId = "#" + id;
 
               if ($(htmlId).length) {
 
-                if (settings.settings.dashboards[0].section[i].destination) {
+                var sensors = [];
+                var sensorLength = dashboards[dashboard].section[i].multiSensor.length;
 
-                  var sensors = [];
-                  var sensorLength = settings.settings.dashboards[0].section[i].multiSensor.length;
 
-                  for (var j = 0; j<sensorLength; j++) {
 
-                    var sensorDetail = {
-                      destination: settings.settings.dashboards[0].section[i].multiSensor[j].destination,
-                      sensor: settings.settings.dashboards[0].section[i].multiSensor[j].sensor
-                    }
+                for (var j = 0; j<sensorLength; j++) {
 
-                    sensors.push(sensorDetail);
-
+                  var sensorDetail = {
+                    destination: dashboards[dashboard].section[i].multiSensor[j].destination,
+                    sensor: dashboards[dashboard].section[i].multiSensor[j].sensor
                   }
 
-                  socket.emit('graph', {
-                    sensors: sensors
-                  }, function (values) {
 
-                    if (values[0]) {
 
-                      var series = [];
+                  sensors.push(sensorDetail);
 
-                      if (values[0].values != null) {
-                        var htmlId = '.chart'+values[0].graphHtmlId;
-                      }
+                }
 
-                      for (var i = 0; i<values.length; i++) {
+                socket.emit('graph', {
+                  sensors: sensors
+                }, function (values) {
 
-                        var data = [];
+                  if (values[0]) {
 
-                        if (values[i].values != null) {
+                    var series = [];
 
-                          var numValues = values[i].values.length;
+                    if (values[0].values != null) {
+                      var htmlId = '.chart'+values[0].graphHtmlId;
+                    }
 
-                          if (numValues > 0) {
+                    for (var i = 0; i<values.length; i++) {
 
-                            var timePlus = moment(values[i].values[0].timestamp).add(10, 'minutes');
+                      var data = [];
 
-                            for(var g=0; g<numValues; g++){
+                      if (values[i].values != null) {
 
-                              var timeFor = moment(values[i].values[g].timestamp);
-                              var time = values[i].values[g].timestamp;
-                              var value = values[i].values[g].value;
+                        var numValues = values[i].values.length;
 
-                              if (timeFor > timePlus || data.length == 0) {
-                                data.push({x: new Date(time), y: value});
-                                timePlus = moment(values[i].values[g].timestamp).add(10, 'minutes');
-                              }
+                        if (numValues > 0) {
+
+                          var timePlus = moment(values[i].values[0].timestamp).add(10, 'minutes');
+
+                          for(var g=0; g<numValues; g++){
+
+                            var timeFor = moment(values[i].values[g].timestamp);
+                            var time = values[i].values[g].timestamp;
+                            var value = values[i].values[g].value;
+
+                            if (timeFor > timePlus || data.length == 0) {
+                              data.push({x: new Date(time), y: value});
+                              timePlus = moment(values[i].values[g].timestamp).add(10, 'minutes');
                             }
                           }
                         }
-
-                        series.push(data);
-
                       }
 
-                      var searchData = {
-                        series: series
-                      };
+                      series.push(data);
 
-                      var options = {
-                        axisX: {
-                              type: Chartist.FixedScaleAxis,
-                              name: 'Time',
-                              divisor: 10,
-                              labelInterpolationFnc: function(value) {
-                                return moment(value).format('ddd h:mm a');
-                              }
-                            },
-                            showArea: true,
-                            showPoint: false
-                      }
-
-                      new Chartist.Line(htmlId, searchData, options);
-
-                    } else {
-                      console.log(values);
                     }
-                  });
-                }
+
+                    var searchData = {
+                      series: series
+                    };
+
+                    var options = {
+                      axisX: {
+                            type: Chartist.FixedScaleAxis,
+                            name: 'Time',
+                            divisor: 3,
+                            labelInterpolationFnc: function(value) {
+                              return moment(value).format('h:mm a');
+                            }
+                          },
+                          showArea: true,
+                          showPoint: false,
+                          width: '90%',
+                          height: '90px'
+                    }
+
+                    new Chartist.Line(htmlId, searchData, options);
+
+                  } else {
+                    console.log(values);
+                  }
+                });
+
               }
             }
+
           }
+
         }
       }, 30000);
     } else {
@@ -755,7 +796,7 @@ socket.on('statusChange', function (sensor) {
 
   // binary change
 
-  if (sensor.type == "3") {
+  if (sensor.type == "3" || sensor.type == "1") {
 
     var currentValue = sensor.value;
     var id = sensor.htmlId;
@@ -777,13 +818,18 @@ socket.on('statusChange', function (sensor) {
     var currentValue = sensor.value;
     var id = sensor.htmlId;
     var htmlId = "#" + id;
-    var hex = "#" + currentValue;
-    var style = "background-image: none; background-color:" + hex + "; color: rgb(0, 0, 0);";
 
-    $(htmlId).prop('value', currentValue);
-    $(htmlId).prop('style', style);
+    if ($(htmlId).hasClass("picker")) {
 
-    $(htmlId).load(window.location.href + " " + htmlId);
+      var hex = "#" + currentValue;
+      var style = "background-image: none; background-color:" + hex + "; color: rgb(0, 0, 0);";
+
+      $(htmlId).prop('value', currentValue);
+      $(htmlId).prop('style', style);
+
+      $(htmlId).load(window.location.href + " " + htmlId);
+
+    }
 
   }
 

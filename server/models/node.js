@@ -60,7 +60,7 @@ var sensorSchema = new Schema ({
 
   },
 
-  valueHtmlId: {
+  htmlId: {
 
 
 
@@ -68,11 +68,6 @@ var sensorSchema = new Schema ({
 
   graphHtmlId: {
 
-
-
-  },
-
-  roToggleHtmlId: {
 
 
   },

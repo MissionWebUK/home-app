@@ -27,9 +27,11 @@ const schedule = require('node-schedule');
 const moment = require('moment');
 const bodyParser = require('body-parser');
 
-if (process.env.NODE_ENV !== 'production'){
-  require('longjohn');
-}
+// Use the code below for Debug Stack Traces
+
+// if (process.env.NODE_ENV !== 'production'){
+//   require('longjohn');
+// }
 
 // Require DB connection
 
@@ -218,9 +220,11 @@ app.use(bodyParser.json());
 
 client.on('connect', function () {
 
-  client.subscribe('mysensors-utility-out/#');
-  
   client.subscribe('jess-bedroom-out/#');
+
+  client.subscribe('utility-room-out/#');
+  
+  client.subscribe('weather-station-out/#');
 
   console.log('Connected to MQTT broker');
 
@@ -254,6 +258,10 @@ client.on('message', function (topic, message) {
 
   }
 
+  var gatewayTopics = gateway.split("-");
+
+  var gatewayTopic = gatewayTopics[0] + "-" + gatewayTopics[1];
+
   // Fire the relevant function based on the message command and type
 
   if (rcommand == C_PRESENTATION) {
@@ -282,7 +290,7 @@ client.on('message', function (topic, message) {
 
     } else if (rtype == I_TIME) {
 
-      sendTime(rsender, rsensor);
+      sendTime(gatewayTopic, rsender, rsensor);
 
     } else if (rtype == I_HEARTBEAT_RESPONSE) {
 
@@ -290,7 +298,7 @@ client.on('message', function (topic, message) {
 
     } else if (rtype == I_ID_REQUEST) {
 
-      sendNextAvailableSensorId();
+      sendNextAvailableSensorId(gatewayTopic);
 
     } else if (rtype == I_SKETCH_NAME) {
 
@@ -302,7 +310,7 @@ client.on('message', function (topic, message) {
 
     } else if (rtype == I_CONFIG) {
 
-      sendConfig(rsender);
+      sendConfig(gatewayTopic, rsender);
 
     }
 
@@ -335,15 +343,16 @@ io.on('connection', (socket) => {
     });
 
   });
-  //
-  // // Get all sensors when the client requests
-  //
+
+  // Get all sensors when the client requests
+
   socket.on('sensors', (data, callback) => {
 
     SensorNode.find()
     .select('name id sensors.id sensors.name sensors.currentValue sensors.valueUpdated sensors.type')
     .exec()
     .then((sensors) => {
+
       callback({sensors});
       sensors = null;
     }, (e) => {
@@ -351,9 +360,9 @@ io.on('connection', (socket) => {
     });
 
   });
-  //
-  // // Get a value from a specific sensor when the client requests
-  //
+
+  // Get a value from a specific sensor when the client requests
+
   socket.on('value', (data, callback) => {
 
     var rsender = data.destination;
@@ -364,8 +373,6 @@ io.on('connection', (socket) => {
       }, {
         'sensors.$': 1
       })
-      .select(
-        'sensors.currentValue sensors.valueUpdated sensors.type sensors.roToggleHtmlId sensors.valueHtmlId sensors.id')
       .exec()
       .then((value) => {
 
@@ -373,8 +380,7 @@ io.on('connection', (socket) => {
           currentValue: value.sensors[0].currentValue,
           valueUpdated: value.sensors[0].valueUpdated,
           type: value.sensors[0].type,
-          roToggleHtmlId: value.sensors[0].roToggleHtmlId,
-          valueHtmlId: value.sensors[0].valueHtmlId
+          htmlId: value.sensors[0].htmlId,
         });
 
         value = null;
@@ -435,18 +441,22 @@ io.on('connection', (socket) => {
 
   socket.on('saveValue', (value) => {
 
+    var gateway = value.topic;
     var rsender = value.destination;
     var rsensor = value.sensor;
     var payload = value.value;
     var command = 1;
     var acknowledge = 0;
     var type = value.type;
-    var topic = 'mysensors-utility-in/' + rsender + '/' + rsensor + '/' + command + '/' + acknowledge + '/' + type;
 
-    client.publish(topic.toString(), payload.toString());
-    
-    topic = 'jess-bedroom-in/' + rsender + '/' + rsensor + '/' + command + '/' + acknowledge + '/' + type;
-    
+    //
+    // How do we handle the topic?
+    // Get it from the DB???
+    //
+
+
+    var topic = gateway + '-in/' + rsender + '/' + rsensor + '/' + command + '/' + acknowledge + '/' + type;
+
     client.publish(topic.toString(), payload.toString());
 
     saveValue(rsender, rsensor, payload);
@@ -557,7 +567,7 @@ server.listen(port, () => {
 
 // When a new node connects to the gateway it will request an ID - This function assigns and sends one
 
-function sendNextAvailableSensorId() {
+function sendNextAvailableSensorId(gatewayTopic) {
 
   // Need to look for gaps in the ID sequence so they can be reused when nodes are deleted
 
@@ -591,12 +601,13 @@ function sendNextAvailableSensorId() {
       var acknowledge = 0; // no ack
       var type = I_ID_RESPONSE;
       var payload = newid;
-      var topic = 'mysensors-utility-in/' + destination + '/' + sensor + '/' + command + '/' + acknowledge + '/' + type;
 
-      client.publish(topic.toString(), payload.toString());
-      
-      topic = 'jess-bedroom-in/' + destination + '/' + sensor + '/' + command + '/' + acknowledge + '/' + type;
-      
+      //
+      // Need to handle to Topic somehow!
+      //
+
+      var topic = gatewayTopic + '-in/' + destination + '/' + sensor + '/' + command + '/' + acknowledge + '/' + type;
+
       client.publish(topic.toString(), payload.toString());
 
     } else {
@@ -761,6 +772,9 @@ function saveValue(rsender, rsensor, payload) {
     value: payload
   }
 
+  var nowMinusTen;
+  var lastValue;
+
   SensorNode.findOneAndUpdate({
     "id": rsender,
     "sensors.id": rsensor
@@ -782,7 +796,7 @@ function saveValue(rsender, rsensor, payload) {
     .exec()
     .then((sensor) => {
 
-      var htmlId = sensor.sensors[0].valueHtmlId;
+      var htmlId = sensor.sensors[0].htmlId;
 
       if (htmlId != 0) {
 
@@ -790,7 +804,7 @@ function saveValue(rsender, rsensor, payload) {
 
           node: rsender,
           sensor: rsensor,
-          htmlId: sensor.sensors[0].valueHtmlId,
+          htmlId: sensor.sensors[0].htmlId,
           value: sensor.sensors[0].currentValue,
           updated: sensor.sensors[0].valueUpdated,
           type: sensor.sensors[0].type
@@ -801,13 +815,19 @@ function saveValue(rsender, rsensor, payload) {
 
       }
 
-      var values = sensor.sensors[0].values.sort(function(a, b){return a.timestamp - b.timestamp});
+      var values = sensor.sensors[0].values;
       var valuesLength = values.length;
 
-      var lastValueArray = valuesLength - 1;
-      lastValue = moment(values[lastValueArray].timestamp).format();
+      if (valuesLength != 0) {
 
-      var nowMinusTen = moment(new Date().getTime()).subtract(10, 'minutes').format();
+        var valuesSorted = values.sort(function(a, b){return a.timestamp - b.timestamp});
+
+        var lastValueArray = valuesLength - 1;
+        lastValue = moment(valuesSorted[lastValueArray].timestamp).format();
+
+        nowMinusTen = moment(new Date().getTime()).subtract(10, 'minutes').format();
+
+      }
 
       if (valuesLength == 0 || lastValue < nowMinusTen) {
 
@@ -881,19 +901,19 @@ function saveValue(rsender, rsensor, payload) {
 
 // Send the time to a node that has requested it
 
-function sendTime(destination, sensor) {
+function sendTime(gatewayTopic, destination, sensor) {
 
   var payload = new Date().getTime()/1000;
   var command = C_INTERNAL;
   var acknowledge = 0; // no ack
 	var type = I_TIME;
 
-  var topic = 'mysensors-utility-in/' + destination + '/' + sensor + '/' + command + '/' + acknowledge + '/' + type;
+  //
+  // Need to handle topic!
+  //
 
-  client.publish(topic.toString(), payload.toString());
-  
-  topic = 'jess-bedroom-in/' + destination + '/' + sensor + '/' + command + '/' + acknowledge + '/' + type;
-  
+  var topic = gatewayTopic + '-in' + '/' + destination + '/' + sensor + '/' + command + '/' + acknowledge + '/' + type;
+
   client.publish(topic.toString(), payload.toString());
 
 }
@@ -1075,7 +1095,7 @@ function saveHeartbeat(rsender) {
 
 // Send Configuration - M (metric) or I (imperial) on config request
 
-function sendConfig(rsender) {
+function sendConfig(gatewayTopic, rsender) {
 
   var destination = rsender;
   var sensor = NODE_SENSOR_ID;
@@ -1083,12 +1103,8 @@ function sendConfig(rsender) {
 	var acknowledge = 0; // no ack
 	var type = I_CONFIG;
   var payload = "M";
-  var topic = 'mysensors-utility-in/' + destination + '/' + sensor + '/' + command + '/' + acknowledge + '/' + type;
+  var topic = gatewayTopic + '-in/' + destination + '/' + sensor + '/' + command + '/' + acknowledge + '/' + type;
 
-  client.publish(topic.toString(), payload.toString());
-  
-  topic = 'jess-bedroom-in/' + destination + '/' + sensor + '/' + command + '/' + acknowledge + '/' + type;
-  
   client.publish(topic.toString(), payload.toString());
 
 }

@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Home</title>
+
+    <!-- Bootstrap -->
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- JQuery UI -->
+
+    <link href="css/jquery-ui.min.css" rel="stylesheet">
+
+    <!-- Chartist -->
+
+    <link rel="stylesheet" href="css/chartist.min.css">
+
+    <!-- Powerrange -->
+
+    <link rel="stylesheet" href="css/powerange.min.css" />
+
+    <!-- Custom Styles -->
+
+    <link rel="stylesheet" type="text/css" media="all" href="css/console.css">
+
+  </head>
+
+  <body onload="startTime()" style="width: 780px; height: 465px;">
+
+    <div class="container">
+
+      <!-- First Row -->
+
+      <div class="row">
+
+        <div class="col-sm-6">
+
+          <h1>Jessica's Room</h1>
+
+        </div><!-- col -->
+
+        <div class="col-sm-6">
+
+          <div class="row">
+
+            <div class="col-sm-2">
+
+              <a href="consoleRooms.html" class="active"><img src="img/opened-door-aperture.png" /></a>
+
+            </div><!-- col -->
+
+            <div class="col-sm-2">
+
+              <a href="consoleSensors.html"><img src="img/exposure.png" /></a>
+
+            </div><!-- col -->
+
+            <div class="col-sm-2">
+
+              <a href="consoleCctv.html"><img src="img/cctv.png" /></a>
+
+            </div><!-- col -->
+
+            <div class="col-sm-2">
+
+              <a href="consoleData.html"><img src="img/line-chart.png" /></a>
+
+            </div><!-- col -->
+
+            <div class="col-sm-2">
+
+              <a href="consoleEntertainment.html"><img src="img/speaker.png" /></a>
+
+            </div><!-- col -->
+
+            <div class="col-sm-2">
+
+              <a href="consoleScenes.html"><img src="img/picture.png" /></a>
+
+            </div><!-- col -->
+
+          </div><!-- row -->
+
+        </div><!-- col -->
+
+      </div><!-- row -->
+
+      <!-- Main Content -->
+
+      <div class="row">
+
+        <div class="col-sm-4">
+
+          <div id="weather" class="jumbotron" style="background-color: #FFD7DD;">
+
+            <div class="row">
+
+              <div class="col-sm-9">
+
+                <div id="J1">
+
+                  <!-- Sensor Value - Probably Temperature -->
+
+                </div>
+
+              </div><!-- col -->
+
+              <div class="col-sm-3">
+
+                <div class="row" style="margin: auto;">
+
+                  <img src="img/compass.png" />
+
+                </div><!-- row -->
+
+                <div class="row" id="windDirection" style="margin: auto;">
+
+                  <!-- Wind Direction -->
+
+                </div><!-- row -->
+
+              </div><!-- col -->
+
+            </div><!-- row -->
+
+            <div class="row">
+
+              <div class="col-sm-9">
+
+                <div id="J2">
+
+                  <!-- Sensor Value - Probably Humidity -->
+
+                </div>
+
+                <div id="updated">
+
+                  <!-- Time sensor values last updated -->
+
+                </div>
+
+              </div><!-- col -->
+
+              <div class="col-sm-3">
+
+                <div class="row" style="margin: auto;">
+
+                  <img src="img/speed.png" />
+
+                </div><!-- row -->
+
+                <div class="row" id="windSpeed" style="margin: auto;">
+
+                  <!-- Wind Speed -->
+
+                </div><!-- row -->
+
+              </div><!-- col -->
+
+            </div><!-- row -->
+
+          </div><!-- jumbotron -->
+
+        </div><!-- col -->
+
+        <div class="col-sm-4">
+
+          <!-- Switches -->
+
+          <div id="" class="jumbotron" style="background-color: #FFD7DD;">
+
+            <div class="row">
+
+              <div class="col-sm-6 text-center">
+
+                <label class="switch">
+
+                  <input type="checkbox" class="checkbox_check toggle" id="J3">
+
+                  <span class="slider round"></span>
+
+                </label>
+
+                <p>Main Light</p>
+
+              </div><!-- col -->
+
+              <div class="col-sm-6 text-center">
+
+                <label class="switch">
+
+                  <input type="checkbox" class="checkbox_check toggle" id="J4">
+
+                  <span class="slider round"></span>
+
+                </label>
+
+                <p>Motion</p>
+
+              </div><!-- col -->
+
+            </div><!-- row -->
+
+            <div class="row">
+
+              <div class="col-sm-6 text-center">
+
+                <!--<label class="switch">
+
+                  <input type="checkbox" class="checkbox_check toggle" id="J5">
+
+                  <span class="slider round"></span>
+
+                </label>
+
+                <p></p>-->
+
+              </div><!-- col -->
+
+              <div class="col-sm-6 text-center">
+
+                <label class="switch">
+
+                  <input type="checkbox" class="checkbox_check toggle" id="J6">
+
+                  <span class="slider round"></span>
+
+                </label>
+
+                <p>Window</p>
+
+              </div><!-- col -->
+
+            </div><!-- row -->
+
+          </div><!-- jumbotron -->
+
+        </div><!-- col -->
+
+        <div class="col-sm-4">
+
+          <!-- Clock/Date & Sunrise/Sunset Times -->
+
+          <div id="" class="jumbotron" style="background-color: #FFD7DD;">
+
+            <div class="row">
+
+              <div class="col-sm-12" id="clock">
+
+                <!-- Time -->
+
+              </div><!-- col -->
+
+            </div><!-- row -->
+
+            <div class="row">
+
+              <div class="col-sm-12" id="date">
+
+                <!-- Date -->
+
+              </div><!-- col -->
+
+            </div><!-- row -->
+
+            <div class="row" id="suntimes">
+
+              <div class="col-sm-2">
+
+                <img src="img/sunrise-hour.png" style="margin-top: 0px;" />
+
+              </div><!-- col -->
+
+              <div class="col-sm-4" id="sunrise">
+
+                <!-- Sunrise Time -->
+
+              </div><!-- col -->
+
+              <div class="col-sm-2">
+
+                <img src="img/sunset.png" style="margin-top: 0px;" />
+
+              </div><!-- col -->
+
+              <div class="col-sm-4" id="sunset">
+
+                <!-- Sunset Time -->
+
+              </div><!-- col -->
+
+            </div><!-- row -->
+
+          </div><!-- jumbotron -->
+
+        </div><!-- col -->
+
+      </div><!-- row -->
+
+      <!-- Second Row -->
+
+      <div class="row">
+
+        <div class="col-sm-4">
+
+          <div class="jumbotron" style="background-color: #FFD7DD;">
+
+            <div class="row">
+
+              <div class="col-sm-12">
+
+                <!-- Music Player Goes Here! -->
+
+                <div id="now-playing">
+
+                  <div class="row">
+
+                    <div class="col-sm-12" id="track-info">
+
+                    </div>
+
+                  </div>
+
+                  <div id="controls">
+                    <div class="row">
+                      <div id="playback-controls">
+
+                        <div class="col-sm-3 text-center" style="padding-right: 5px; padding-left: 10px;">
+
+                          <button type="button" id="previous-track-button" class="btn" style="width: 100%;">
+                            <span class="glyphicon glyphicon-fast-backward" aria-hidden="true"></span>
+                          </button>
+
+                        </div>
+
+                        <div class="col-sm-3 text-center" style="padding-right: 5px; padding-left: 5px;">
+
+                          <button type="button" id="play-button" class="btn" style="width: 100%;">
+                            <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+                          </button>
+
+                        </div>
+
+                        <div class="col-sm-3 text-center" style="padding-right: 5px; padding-left: 5px;">
+
+                          <button type="button" id="pause-button" class="btn" style="width: 100%;">
+                            <span class="glyphicon glyphicon-pause" aria-hidden="true"></span>
+                          </button>
+
+                        </div>
+
+                        <div class="col-sm-3 text-center" style="padding-right: 10px; padding-left: 5px;">
+
+                          <button type="button" id="next-track-button" class="btn" style="width: 100%;">
+                            <span class="glyphicon glyphicon-fast-forward" aria-hidden="true"></span>
+                          </button>
+
+                        </div>
+
+                      </div>
+                    </div>
+                    <div class="row" style="margin-top: 15px; margin-bottom: 5px;">
+                      <div class="col-sm-12" id="volume-control">
+                        <div class="slider-wrapper">
+                          <input type="text" class="js-hiderange" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div><!-- row -->
+
+          </div><!-- jumbotron -->
+
+        </div><!-- col -->
+
+        <div class="col-sm-8">
+
+          <!-- Light Settings -->
+
+          <div id="" class="jumbotron" style="padding-top: 0px; padding-bottom: 0px; background-color: #FFD7DD; height: 100px;">
+
+            <div class="row">
+
+              <div class="col-sm-3">
+
+                <div class="row">
+
+                  <div class="col-sm-12">
+
+                    <button type="button" id="J13" class="btn button" value="FF0000" style="min-height: 25px; margin-top: 5px; background-color: #FF0000;"></button>
+
+                  </div><!-- col -->
+
+                </div><!-- row -->
+
+                <div class="row">
+
+                  <div class="col-sm-12">
+
+                    <button type="button" id="J14" class="btn button" value="FF8000" style="min-height: 25px; margin-top: 5px; background-color: #FF8000;"></button>
+
+                  </div><!-- col -->
+
+                </div><!-- row -->
+
+                <div class="row">
+
+                  <div class="col-sm-12">
+
+                    <button type="button" id="J15" class="btn button" value="FFFF00" style="min-height: 25px; margin-top: 5px; background-color: #FFFF00;"></button>
+
+                  </div><!-- col -->
+
+                </div><!-- row -->
+
+              </div><!-- col -->
+
+              <div class="col-sm-3">
+
+                <div class="row">
+
+                  <div class="col-sm-12">
+
+                    <button type="button" id="J16" class="btn button" value="00FF00" style="min-height: 25px; margin-top: 5px; background-color: #00FF00;"></button>
+
+                  </div><!-- col -->
+
+                </div><!-- row -->
+
+                <div class="row">
+
+                  <div class="col-sm-12">
+
+                    <button type="button" id="J17" class="btn button" value="00FFFF" style="min-height: 25px; margin-top: 5px; background-color: #00FFFF;"></button>
+
+                  </div><!-- col -->
+
+                </div><!-- row -->
+
+                <div class="row">
+
+                  <div class="col-sm-12">
+
+                    <button type="button" id="J18" class="btn button" value="0000FF" style="min-height: 25px; margin-top: 5px; background-color: #0000FF;"></button>
+
+                  </div><!-- col -->
+
+                </div><!-- row -->
+
+              </div><!-- col -->
+
+              <div class="col-sm-3">
+
+                <!-- Colours -->
+
+                <div class="row">
+
+                  <div class="col-sm-12">
+
+                    <button type="button" id="J19" class="btn button" value="7F00F" style="min-height: 25px; margin-top: 5px; background-color: #7F00FF;"></button>
+
+                  </div><!-- col -->
+
+                </div><!-- row -->
+
+                <div class="row">
+
+                  <div class="col-sm-12">
+
+                    <button type="button" id="J20" class="btn button" value="FF00FF" style="min-height: 25px; margin-top: 5px; background-color: #FF00FF;"></button>
+
+                  </div><!-- col -->
+
+                </div><!-- row -->
+
+                <div class="row">
+
+                  <div class="col-sm-12">
+
+                    <button type="button" id="J21" class="btn button" value="000000" style="height: 25px; margin-top: 5px; padding: 0px;">Off</button>
+
+                  </div><!-- col -->
+
+                </div><!-- row -->
+
+              </div><!-- col -->
+
+              <div class="col-sm-3" >
+
+                <!-- Dimmers -->
+
+                <div class="row">
+
+                  <div class="col-sm-3">
+
+                    <div class="row" style="height: 100px;">
+
+                      <div class="slider-wrapper vertical-wrapper" style="margin-left: 50%; margin-top:20%; height: 85%;">
+                        <input type="text" class="js-vertical1 js-check-change" id="J22" />
+                      </div><!-- col slider -->
+
+                    </div><!-- row -->
+
+                  </div><!-- col -->
+
+                  <div class="col-sm-9">
+
+                    <button type="button" id="J23" class="btn button text-center" value="" style="height: 80px; margin-top: 10px; padding: 0px; background-color: #ff8b9c;">Bed</br>Time</button>
+
+                  </div><!-- col -->
+
+                </div><!-- row -->
+
+              </div><!-- col -->
+
+            </div><!-- row -->
+
+          </div><!-- jumbotron -->
+
+        </div><!-- col -->
+
+      </div><!-- row -->
+
+      <div class="row">
+
+        <div class="col-sm-8">
+
+          <div id="" class="jumbotron" style="padding-top: 0px; padding-bottom: 0px; background-color: #FFD7DD;">
+
+            <div class="row">
+
+              <div class="col-sm-6">
+
+                <!-- Floor Plan -->
+
+                <div id="J17">
+
+                </div>
+
+              </div>
+
+              <div class="col-sm-6">
+
+                <!-- Graph -->
+
+                <h4 style="margin-bottom: 0px; margin-top: 3px;">Data</h4>
+
+                <div id="J18" class="ct-chart chartbox chartJ18">
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div><!-- col -->
+
+        <div class="col-sm-4">
+
+          <div id="" class="jumbotron" style="background-color: #FFD7DD;">
+
+            <!--<img src="http://192.168.1.71:8081" style="width: 60%;">-->
+
+          </div>
+
+        </div><!-- col -->
+
+      </div><!-- row -->
+
+    </div><!-- container -->
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+
+    <script src="js/bootstrap.min.js"></script>
+
+    <script src="js/jquery-ui.min.js"></script>
+
+    <script src="js/touch-punch.min.js"></script>
+
+    <script src="js/moment.js"></script>
+
+    <script src="js/chartist.min.js"></script>
+
+    <script src="js/jscolor.min.js"></script>
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script src="js/powerange.min.js"></script>
+
+    <script type="text/javascript">
+
+      var dashboard = 1;
+      var topic = "jess-bedroom";
+
+    </script>
+
+    <script src="js/main.js"></script>
+
+    <script type="text/javascript">
+
+      // Hide range.
+      var hide = document.querySelector('.js-hiderange');
+      var initHideRange = new Powerange(hide, { hideRange: true, start: 70 });
+
+      var vert1 = document.querySelector('.js-vertical1');
+      var initVert1 = new Powerange(vert1, { start: 80, hideRange: true, vertical: true });
+
+      var vert2 = document.querySelector('.js-vertical2');
+      var initVert2 = new Powerange(vert2, { start: 80, hideRange: true, vertical: true });
+
+    </script>
+
+    <!--<script src="js/client.js"></script>-->
+
+    <!--<script src="js/sprintf.js"></script>-->
+
+  </body>
+
+</html>

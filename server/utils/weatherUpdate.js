@@ -17,7 +17,7 @@ var weatherUpdate = () => {
 
     requestJSON(lat, lng, (json) => {
 
-      if (typeof json.weather !== "undefined") {
+      if (typeof json !== "undefined" && typeof json.weather !== "undefined") {
 
         Setting.findOneAndUpdate({
 
